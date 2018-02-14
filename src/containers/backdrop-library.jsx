@@ -2,11 +2,13 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import VM from 'scratch-vm';
+import xhr from 'xhr';
 
 import analytics from '../lib/analytics';
-import backdropLibraryContent from '../lib/libraries/backdrops.json';
+// import backdropLibraryContent from '../lib/libraries/backdrops.json';
 import LibraryComponent from '../components/library/library.jsx';
 
+const backdropsUrl = "http://localhost:8600/backdrops";
 
 class BackdropLibrary extends React.Component {
     constructor (props) {
@@ -14,6 +16,9 @@ class BackdropLibrary extends React.Component {
         bindAll(this, [
             'handleItemSelect'
         ]);
+        this.state = {
+            backdropLibraryContent: []
+        }
     }
     handleItemSelect (item) {
         const vmBackdrop = {
@@ -34,11 +39,21 @@ class BackdropLibrary extends React.Component {
             label: item.name
         });
     }
+
+    componentDidMount () {
+        xhr({
+            uri: backdropsUrl
+        },(err, resp, body) => {
+            body = JSON.parse(body);
+            this.setState({backdropLibraryContent: body.data});
+        })
+    }
+
     render () {
         return (
             <LibraryComponent
-                data={backdropLibraryContent}
-                title="Backdrop Library"
+                data={this.state.backdropLibraryContent}
+                title="Backdrop Library - UltraBear"
                 onItemSelected={this.handleItemSelect}
                 onRequestClose={this.props.onRequestClose}
             />

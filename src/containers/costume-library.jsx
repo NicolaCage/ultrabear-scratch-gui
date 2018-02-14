@@ -2,10 +2,13 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import VM from 'scratch-vm';
+import xhr from 'xhr';
 
 import analytics from '../lib/analytics';
-import costumeLibraryContent from '../lib/libraries/costumes.json';
+// import costumeLibraryContent from '../lib/libraries/costumes.json';
 import LibraryComponent from '../components/library/library.jsx';
+
+const custumesUrl = "http://localhost:8600/custumes";
 
 
 class CostumeLibrary extends React.PureComponent {
@@ -14,6 +17,9 @@ class CostumeLibrary extends React.PureComponent {
         bindAll(this, [
             'handleItemSelected'
         ]);
+        this.state = {
+            costumeLibraryContent: []
+        }
     }
     handleItemSelected (item) {
         const vmCostume = {
@@ -32,11 +38,21 @@ class CostumeLibrary extends React.PureComponent {
             label: item.name
         });
     }
+
+    componentDidMount () {
+        xhr({
+            uri: custumesUrl
+        },(err, resp, body) => {
+            body = JSON.parse(body);
+            this.setState({costumeLibraryContent: body.data});
+        })
+    }
+
     render () {
         return (
             <LibraryComponent
-                data={costumeLibraryContent}
-                title="Costume Library"
+                data={this.state.costumeLibraryContent}
+                title="Costume Library - UltraBear"
                 onItemSelected={this.handleItemSelected}
                 onRequestClose={this.props.onRequestClose}
             />
