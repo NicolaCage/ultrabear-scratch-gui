@@ -49,7 +49,8 @@ class SoundLibrary extends React.PureComponent {
                 const sound = {
                     md5: md5ext,
                     name: soundItem.name,
-                    format: soundItem.format,
+                    // format: soundItem.format,
+                    format: "",
                     data: soundAsset.data
                 };
                 return this.audioEngine.decodeSound(sound);
