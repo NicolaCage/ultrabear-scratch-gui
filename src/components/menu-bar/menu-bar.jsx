@@ -7,7 +7,9 @@ import React from 'react';
 import Box from '../box/box.jsx';
 import Button from '../button/button.jsx';
 import LoadButton from '../../containers/load-button.jsx';
+import LoadCloudButton from '../../containers/load-cloud-button.jsx';
 import SaveButton from '../../containers/save-button.jsx';
+import SaveCloudButton from '../../containers/save-cloud-button.jsx';
 import LanguageSelector from '../../containers/language-selector.jsx';
 
 import {openFeedbackForm} from '../../reducers/modals';
@@ -33,8 +35,9 @@ const MenuBar = props => (
                 />
             </div>
             <SaveButton className={styles.menuItem} />
+            <SaveCloudButton className={styles.menuItem} />
             <LoadButton className={styles.menuItem} />
-            <LanguageSelector className={styles.menuItem} />
+            <LoadCloudButton className={styles.menuItem} />
         </div>
         <div className={styles.feedbackButtonWrapper}>
             <Button

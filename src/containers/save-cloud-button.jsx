@@ -7,7 +7,7 @@ import xhr from 'xhr';
 import md5 from 'md5';
 import ButtonComponent from '../components/button/button.jsx';
 
-class SaveButton extends React.Component {
+class SaveCloudButton extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, [
@@ -22,26 +22,27 @@ class SaveButton extends React.Component {
 
         const json = this.props.saveProjectSb3();
 
-        // Download project data into a file - create link element,
-        // simulate click on it, and then remove it.
-        const saveLink = document.createElement('a');
-        document.body.appendChild(saveLink);
-
-        const data = new Blob([json], {type: 'text'});
-        const url = window.URL.createObjectURL(data);
-        saveLink.href = url;
-
-        // File name: project-DATE-TIME
+        // File name: project-DATE-TIME-HASH
         const date = new Date();
-        const timestamp = `${date.toLocaleDateString()}-${date.toLocaleTimeString()}`;
-        saveLink.download = `project-${timestamp}.json`;
-        saveLink.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(saveLink);
+        const prefix = `user-project-${date.toLocaleDateString()}-${date.toLocaleTimeString()}`;
+        const hash = md5(prefix + json);
+        const projectName = `${hash}`;
+        
+        xhr({
+            method: "POST",
+            url: "http://localhost:8600/projects/" + projectName,
+            body: json,
+        }, (err, response, body) => {
+            if (!err) {
+                debugger
+                alert("上传成功，项目代码 ：" + projectName);
+                console.log("project saved");
+            }
+        });
+
         this.saveCostumes();
     }
     saveCostumes() {
-        debugger
         if (!window.FormData) {
             throw new Error("Unsupported browser");
         }
@@ -93,13 +94,13 @@ class SaveButton extends React.Component {
                 onClick={this.handleClick}
                 {...props}
             >
-                Save Local
+                Save on Cloud
             </ButtonComponent>
         );
     }
 }
 
-SaveButton.propTypes = {
+SaveCloudButton.propTypes = {
     saveProjectSb3: PropTypes.func.isRequired,
     vm: PropTypes.instanceOf(VM)
 };
@@ -114,4 +115,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     () => ({}) // omit dispatch prop
-)(SaveButton);
+)(SaveCloudButton);
