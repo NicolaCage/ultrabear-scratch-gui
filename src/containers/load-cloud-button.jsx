@@ -15,8 +15,8 @@ class LoadCloudButton extends React.Component {
     }
 
     handleClick () {
-        let projectId = "ee606163e5df277abce161a78fa47e87";
-
+        let projectId = prompt("Please enter project ID :");
+        if (!projectId || projectId.length == 0) return;
         xhr({
             method: "GET",
             url: "http://localhost:8600/projects/" + projectId,
@@ -28,7 +28,6 @@ class LoadCloudButton extends React.Component {
                 console.log("project loaded");
             }
         });
-        
     }
 
     render () {
