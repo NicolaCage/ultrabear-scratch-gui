@@ -52,10 +52,10 @@ class SaveButton extends React.Component {
         this.uploadStageCostumes(this.props.stage);
     }
     uploadSpriteCostumes(sprite) {
-        this.uploadSVG(sprite, "http://localhost:8600/custumes");
+        this.uploadSVG(sprite, "https://assets.ultrabear.com.cn/custumes");
     }
     uploadStageCostumes(sprite) {
-        this.uploadSVG(sprite, "http://localhost:8600/backdrops");
+        this.uploadSVG(sprite, "https://assets.ultrabear.com.cn/backdrops");
     }
     uploadSVG(sprite, url) {
         if (!sprite || !sprite.costumes) return;

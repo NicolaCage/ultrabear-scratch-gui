@@ -10,7 +10,7 @@ import LibraryComponent from '../components/library/library.jsx';
 import soundIcon from '../components/asset-panel/icon--sound.svg';
 
 // import soundLibraryContent from '../lib/libraries/sounds.json';
-const soundsUrl = "http://localhost:8600/sounds";
+const soundsUrl = "https://assets.ultrabear.com.cn/sounds";
 
 
 class SoundLibrary extends React.PureComponent {

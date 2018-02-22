@@ -8,7 +8,7 @@ import analytics from '../lib/analytics';
 // import costumeLibraryContent from '../lib/libraries/costumes.json';
 import LibraryComponent from '../components/library/library.jsx';
 
-const custumesUrl = "http://localhost:8600/custumes";
+const custumesUrl = "https://assets.ultrabear.com.cn/custumes";
 
 
 class CostumeLibrary extends React.PureComponent {

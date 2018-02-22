@@ -8,7 +8,7 @@ import analytics from '../lib/analytics';
 // import backdropLibraryContent from '../lib/libraries/backdrops.json';
 import LibraryComponent from '../components/library/library.jsx';
 
-const backdropsUrl = "http://localhost:8600/backdrops";
+const backdropsUrl = "https://assets.ultrabear.com.cn/backdrops";
 
 class BackdropLibrary extends React.Component {
     constructor (props) {

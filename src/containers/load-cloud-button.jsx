@@ -19,7 +19,7 @@ class LoadCloudButton extends React.Component {
         if (!projectId || projectId.length == 0) return;
         xhr({
             method: "GET",
-            url: "http://localhost:8600/projects/" + projectId,
+            url: "https://assets.ultrabear.com.cn/projects/" + projectId,
         }, (err, response, body) => {
             body = JSON.parse(body);
             if (!err && body.data && body.data.data) {

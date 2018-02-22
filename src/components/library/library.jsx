@@ -63,7 +63,7 @@ class LibraryComponent extends React.Component {
                 <div className={styles.libraryScrollGrid}>
                     {this.getFilteredData().map((dataItem, index) => {
                         const scratchURL = dataItem.md5?
-                            `http://localhost:8600/assets/${dataItem.md5}` :
+                            `https://assets.ultrabear.com.cn/assets/${dataItem.md5}` :
                             dataItem.rawURL;
                         return (
                             <LibraryItem

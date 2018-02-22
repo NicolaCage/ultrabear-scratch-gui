@@ -4,7 +4,7 @@ import defaultProjectAssets from './default-project';
 
 const PROJECT_SERVER = 'https://cdn.projects.scratch.mit.edu';
 // const ASSET_SERVER = 'https://cdn.assets.scratch.mit.edu';
-const ASSET_SERVER = 'http://localhost:8600/assets';
+const ASSET_SERVER = 'https://assets.ultrabear.com.cn/assets';
 
 /**
  * Wrapper for ScratchStorage which adds default web sources.

@@ -30,11 +30,10 @@ class SaveCloudButton extends React.Component {
         
         xhr({
             method: "POST",
-            url: "http://localhost:8600/projects/" + projectName,
+            url: "https://assets.ultrabear.com.cn/projects/" + projectName,
             body: json,
         }, (err, response, body) => {
             if (!err) {
-                debugger
                 alert("上传成功，项目代码 ：" + projectName);
                 console.log("project saved");
             }
@@ -53,10 +52,10 @@ class SaveCloudButton extends React.Component {
         this.uploadStageCostumes(this.props.stage);
     }
     uploadSpriteCostumes(sprite) {
-        this.uploadSVG(sprite, "http://localhost:8600/custumes");
+        this.uploadSVG(sprite, "https://assets.ultrabear.com.cn/custumes");
     }
     uploadStageCostumes(sprite) {
-        this.uploadSVG(sprite, "http://localhost:8600/backdrops");
+        this.uploadSVG(sprite, "https://assets.ultrabear.com.cn/backdrops");
     }
     uploadSVG(sprite, url) {
         if (!sprite || !sprite.costumes) return;
