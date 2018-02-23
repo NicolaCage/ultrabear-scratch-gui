@@ -123,10 +123,11 @@ module.exports = {
         new CopyWebpackPlugin([{
             from: 'extension-worker.{js,js.map}',
             context: 'node_modules/scratch-vm/dist/web'
-        }]),
-		new webpack.optimize.UglifyJsPlugin({
+        }])
+	].concat(process.env.NODE_ENV === 'production' ? [
+        new webpack.optimize.UglifyJsPlugin({
             include: /\.min\.js$/,
             minimize: true
         })
-    ]
+    ] : [])
 };
