@@ -7,6 +7,7 @@ const MODAL_BACKDROP_LIBRARY = 'backdropLibrary';
 const MODAL_COSTUME_LIBRARY = 'costumeLibrary';
 const MODAL_EXTENSION_LIBRARY = 'extensionLibrary';
 const MODAL_FEEDBACK_FORM = 'feedbackForm';
+const MODAL_LOGIN_FORM = 'loginForm';
 const MODAL_PREVIEW_INFO = 'previewInfo';
 const MODAL_SOUND_LIBRARY = 'soundLibrary';
 const MODAL_SPRITE_LIBRARY = 'spriteLibrary';
@@ -18,6 +19,7 @@ const initialState = {
     [MODAL_COSTUME_LIBRARY]: false,
     [MODAL_EXTENSION_LIBRARY]: false,
     [MODAL_FEEDBACK_FORM]: false,
+    [MODAL_LOGIN_FORM]: false,
     [MODAL_PREVIEW_INFO]: false,
     [MODAL_SOUND_LIBRARY]: false,
     [MODAL_SPRITE_LIBRARY]: false,
@@ -67,6 +69,10 @@ const openFeedbackForm = function () {
     analytics.pageview('/modals/feedback');
     return openModal(MODAL_FEEDBACK_FORM);
 };
+const openLoginForm = function () {
+    analytics.pageview('/modals/login');
+    return openModal(MODAL_LOGIN_FORM);
+};
 const openSoundLibrary = function () {
     analytics.pageview('/libraries/sounds');
     return openModal(MODAL_SOUND_LIBRARY);
@@ -95,6 +101,9 @@ const closeExtensionLibrary = function () {
 const closeFeedbackForm = function () {
     return closeModal(MODAL_FEEDBACK_FORM);
 };
+const closeLoginForm = function () {
+    return closeModal(MODAL_LOGIN_FORM);
+};
 const closePreviewInfo = function () {
     return closeModal(MODAL_PREVIEW_INFO);
 };
@@ -113,6 +122,7 @@ export {
     openCostumeLibrary,
     openExtensionLibrary,
     openFeedbackForm,
+    openLoginForm,
     openPreviewInfo,
     openSoundLibrary,
     openSpriteLibrary,
@@ -121,6 +131,7 @@ export {
     closeCostumeLibrary,
     closeExtensionLibrary,
     closeFeedbackForm,
+    closeLoginForm,
     closePreviewInfo,
     closeSpriteLibrary,
     closeSoundLibrary,

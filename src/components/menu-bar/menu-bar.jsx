@@ -12,7 +12,7 @@ import SaveButton from '../../containers/save-button.jsx';
 import SaveCloudButton from '../../containers/save-cloud-button.jsx';
 import LanguageSelector from '../../containers/language-selector.jsx';
 
-import {openFeedbackForm} from '../../reducers/modals';
+import {openLoginForm} from '../../reducers/modals';
 
 import styles from './menu-bar.css';
 
@@ -42,7 +42,7 @@ const MenuBar = props => (
         <div className={styles.feedbackButtonWrapper}>
             <Button
                 className={styles.feedbackButton}
-                onClick={props.onGiveFeedback}
+                onClick={props.onLoginClicked}
             >
                 <img
                     className={styles.feedbackButtonIcon}
@@ -51,8 +51,8 @@ const MenuBar = props => (
                 />
                 <span className={styles.feedbackText}>
                     <FormattedMessage
-                        defaultMessage="Give Feedback"
-                        description="Label for feedback form modal button"
+                        defaultMessage="Login"
+                        description="Label for login form modal button"
                         id="gui.menuBar.giveFeedback"
                     />
                 </span>
@@ -62,14 +62,14 @@ const MenuBar = props => (
 );
 
 MenuBar.propTypes = {
-    onGiveFeedback: PropTypes.func.isRequired
+    onLoginClicked: PropTypes.func.isRequired
 };
 
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
-    onGiveFeedback: () => {
-        dispatch(openFeedbackForm());
+    onLoginClicked: () => {
+        dispatch(openLoginForm());
     }
 });
 
