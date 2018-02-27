@@ -9,7 +9,6 @@ const reducer = function (state, action) {
     if (typeof state === 'undefined') state = initialState;
     switch (action.type) {
     case SETUP_USER:
-        debugger
         return {
             user: action.user
         };
