@@ -68,7 +68,7 @@ class RegisterForm extends React.Component {
             },
         }, (err, response, body) => {
             body = JSON.parse(body);
-            if (!err && body.data) {
+            if (!err && body.code == 0 && body.data && typeof body.data == "string") {
                 let jwt = body.data;
                 var decoded = jwtDecode(jwt);
                 this.props.setUser({
