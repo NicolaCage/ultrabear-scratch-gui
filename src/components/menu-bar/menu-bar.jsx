@@ -19,7 +19,11 @@ import styles from './menu-bar.css';
 import feedbackIcon from './icon--feedback.svg';
 import scratchLogo from './scratch-logo.svg';
 
-const MenuBar = props => (
+const MenuBar = props => {
+    // Hide some buttons base on user log in status
+    let validUser = !!props.user && !!props.user.id && !!props.user.unionid;
+
+    return (
     <Box
         className={classNames({
             [styles.menuBar]: true
@@ -35,9 +39,13 @@ const MenuBar = props => (
                 />
             </div>
             <SaveButton className={styles.menuItem} />
-            <SaveCloudButton className={styles.menuItem} />
+            {validUser ? (
+                <SaveCloudButton className={styles.menuItem} />
+            ) : null}
             <LoadButton className={styles.menuItem} />
-            <LoadCloudButton className={styles.menuItem} />
+            {validUser ? (
+                <LoadCloudButton className={styles.menuItem} />
+            ) : null}
         </div>
         <div className={styles.feedbackButtonWrapper}>
             <Button
@@ -59,13 +67,16 @@ const MenuBar = props => (
             </Button>
         </div>
     </Box>
-);
+    )
+};
 
 MenuBar.propTypes = {
     onLoginClicked: PropTypes.func.isRequired
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+    user: state.user.user
+});
 
 const mapDispatchToProps = dispatch => ({
     onLoginClicked: () => {
