@@ -11,7 +11,9 @@ import LoginFormComponent from '../components/login-form/login-form.jsx';
 import {setUser} from '../reducers/user';
 import {closeLoginForm} from '../reducers/modals';
 import cookie from 'react-cookies';
+import { AUTH_ROOT } from '../api-config';
 
+const loginValidSeconds = 60*60;
 const AppId = "123";
 const WechatRedirectUrl = "https://coding.ultrabear.com.cn";
 
@@ -53,7 +55,7 @@ class LoginForm extends React.Component {
             },
         }, (err, response, body) => {
             body = JSON.parse(body);
-            if (!err && body.data) {
+            if (!err && body.data && body.code == 0) {
                 let jwt = body.data;
                 var decoded = jwtDecode(jwt);
                 this.props.setUser({
@@ -72,7 +74,11 @@ class LoginForm extends React.Component {
                 this.props.close();
             }
             else {
-                alert("Login fail")
+                switch (body.code) {
+                    case 1: alert("用户名或密码错误"); break;
+                    case 2: alert("网络错误"); break;
+                    default: alert("登录失败");
+                }
             }
         });
     }

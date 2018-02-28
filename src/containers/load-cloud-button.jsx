@@ -23,7 +23,6 @@ class LoadCloudButton extends React.Component {
         }, (err, response, body) => {
             body = JSON.parse(body);
             if (!err && body.data && body.data.data) {
-                debugger
                 this.props.loadProject(body.data.data);
                 console.log("project loaded");
             }

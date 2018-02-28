@@ -86,8 +86,8 @@ class GUI extends React.Component {
                 if (!err && body.code == 0 && body.data) {
                     let jwt = body.data;
                     var decoded = jwtDecode(jwt);
-                    // if (body.msg.includes("id")) {
-                    if (true) {
+                    if (body.msg.includes("id")) {
+                    // if (true) {
                         // need set up id
                         console.log(body.msg);
 
