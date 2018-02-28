@@ -21,7 +21,6 @@ const LoginFormComponent = props => (
                 <label>用户名</label>
                 <input
                     autoFocus
-                    placeholder="username"
                     type="text"
                     onChange={props.onUserNameChange}
                 />
@@ -34,11 +33,16 @@ const LoginFormComponent = props => (
                 />
             </div>
             <button className={styles.submitbutton}
-                onClick={props.onScan}
-            > 微信扫码 </button>
-            <button className={styles.submitbutton}
                 onClick={props.onSubmit}
             > 登录 </button>
+
+            <a className={styles.wechatbutton}
+                onClick={props.onScan}
+            > 微信扫码登录</a>
+            
+            <a className={styles.registerbutton}
+                onClick={props.onRegister}
+            > 注册</a>
         </Box>
     </ReactModal>
 );
@@ -49,6 +53,7 @@ LoginFormComponent.propTypes = {
     onPasswordChange: PropTypes.func,
     onSubmit: PropTypes.func,
     onScan: PropTypes.func,
+    onRegister: PropTypes.func,
 };
 
 const mapStateToProps = () => ({});

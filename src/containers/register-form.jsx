@@ -6,47 +6,62 @@ import xhr from 'xhr';
 import md5 from 'md5'
 import jwtDecode from 'jwt-decode';
 
-import LoginFormComponent from '../components/login-form/login-form.jsx';
+import RegisterFormComponent from '../components/register-form/register-form.jsx';
 
-import {setUser} from '../reducers/user';
-import {closeLoginForm} from '../reducers/modals';
+import {closeRegisterForm} from '../reducers/modals';
+import {setUser, unsetUser} from '../reducers/user';
+import { AUTH_ROOT } from '../api-config';
 import cookie from 'react-cookies';
 
-const AppId = "123";
-const WechatRedirectUrl = "https://coding.ultrabear.com.cn";
-
-class LoginForm extends React.Component {
+class RegisterForm extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, [
             'handleSubmit',
-            'handleScan',
-            'handleUserNameChange',
-            'handlePasswordChange'
+            'handleIdChange',
+            'handlePasswordChange',
+            'handlePasswordAgainChange',
+            'handleNameChange'
         ]);
         this.state = {
-            username: "",
-            password: ""
+            id: "",
+            password: "",
+            name: "",
         };
     }
-    handleUserNameChange (e) {
+    handleIdChange (e) {
         var value = e.target.value;
-        this.setState({username: value});
+        this.setState({id: value});
     }
     handlePasswordChange (e) {
         var value = e.target.value;
         this.setState({password: value});
     }
-    
+    handlePasswordAgainChange (e) {
+        var value = e.target.value;
+        this.setState({password2: value});
+    }
+    handleNameChange(e) {
+        var value = e.target.value;
+        this.setState({name: value});
+    }
     handleSubmit () {
-        if (!this.state.username || this.state.username.length == 0 || !this.state.password || this.state.password.length == 0) return;
+        if (this.state.password != this.state.password2) {
+            alert("两次输入密码不一致");
+            return;
+        }
+        if (!this.state.id || this.state.id.length == 0 || !this.state.password || this.state.password.length == 0) {
+            return;
+        }
+
         var payload = JSON.stringify({
-            "id": this.state.username,
-            "pwd": md5(this.state.password)
+            "id": this.state.id,
+            "pwd": md5(this.state.password),
+            "name": this.name
         });
         xhr({
             method: "POST",
-            url: AUTH_ROOT + '/login',
+            url: AUTH_ROOT + '/adduserid',
             body: payload,
             headers: {
                 "Content-Type": "application/json"
@@ -68,38 +83,32 @@ class LoginForm extends React.Component {
                 cookie.save('userName', decoded.name, { path: '/', maxAge: loginValidSeconds });
                 cookie.save('permission', decoded.permission, { path: '/', maxAge: loginValidSeconds });
                 cookie.save('jwt', jwt, { path: '/', maxAge: loginValidSeconds });
-                alert("login successfully");
+                alert("注册成功");
                 this.props.close();
             }
             else {
-                alert("Login fail")
+                //TODO: show why it failed
+                alert("注册失败");
             }
         });
     }
 
-    handleScan() {
-        let stateCode = "fenoojrewfvkfsdafdsfdsa";
-        let callbackURI = encodeURIComponent(WechatRedirectUrl);
-        console.log(callbackURI);
-        let wechatScanUrl = `https://open.weixin.qq.com/connect/qrconnect?appid=${AppId}&redirect_uri=${callbackURI}&response_type=code&scope=snsapi_login&state=${stateCode}#wechat_redirect`
-        window.location.href = wechatScanUrl;
-    }
-
     render () {
         return (
-            <LoginFormComponent
-                onUserNameChange={this.handleUserNameChange}
+            <RegisterFormComponent
+                onIdChange={this.handleIdChange}
                 onPasswordChange={this.handlePasswordChange}
-                onSubmit={this.handleSubmit}
+                onPasswordAgainChange = {this.handlePasswordAgainChange}
+                onNameChange={this.handleNameChange}
+                onRegister={this.handleSubmit}
                 onScan={this.handleScan}
-                onRegister = {this.handleScan}
                 {...this.props}
             />
         );
     }
 }
 
-LoginForm.propTypes = {
+RegisterForm.propTypes = {
     
 };
 
@@ -109,12 +118,13 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     setUser: (user) => dispatch(setUser(user)),
+    unsetUser: (user) => dispatch(unsetUser(user)),
     close: () => {
-        dispatch(closeLoginForm());
+        dispatch(closeRegisterForm());
     }
 });
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(LoginForm);
+)(RegisterForm);

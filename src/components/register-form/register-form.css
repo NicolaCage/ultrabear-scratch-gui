@@ -2,8 +2,8 @@
 @import "../../css/units.css";
 @import "../../css/typography.css";
 
-$content-width: 300px;
-$content-height: 200px;
+$content-width: 420px;
+$content-height: 300px;
 
 .modal-overlay {
     position: fixed;
@@ -21,7 +21,7 @@ $content-height: 200px;
 
 .section label {
     display: inline-block;
-    width: 60px;
+    width: 120px;
 }
 
 .modal-content {
@@ -47,17 +47,6 @@ $content-height: 200px;
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
-}
-
-.wechatbutton {
-    display: block;
-    cursor: pointer;
-}
-
-.registerbutton {
-    display: block;
-    cursor: pointer;
-    margin-top: 20px;
 }
 
 .body {

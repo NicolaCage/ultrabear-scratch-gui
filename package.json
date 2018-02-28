@@ -106,7 +106,8 @@
     "webpack-dev-server": "^2.9.7",
     "xhr": "2.4.1",
     "md5": "2.2.1",
-    "jwt-decode": "2.2.0"
+    "jwt-decode": "2.2.0",
+    "react-cookies": "^0.1.0"
   },
   "jest": {
     "setupFiles": [

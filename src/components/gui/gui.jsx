@@ -15,6 +15,7 @@ import SoundTab from '../../containers/sound-tab.jsx';
 import StageHeader from '../../containers/stage-header.jsx';
 import Stage from '../../containers/stage.jsx';
 import LoginForm from '../../containers/login-form.jsx';
+import RegisterForm from '../../containers/register-form.jsx';
 
 import Box from '../box/box.jsx';
 import FeedbackForm from '../feedback-form/feedback-form.jsx';
@@ -42,6 +43,7 @@ const GUIComponent = props => {
         intl,
         feedbackFormVisible,
         loginFormVisible,
+        registerFormVisible,
         vm,
         previewInfoVisible,
         onExtensionButtonClick,
@@ -81,6 +83,9 @@ const GUIComponent = props => {
             ) : null}
             {loginFormVisible ? (
                 <LoginForm />
+            ) : null}
+            {registerFormVisible ? (
+                <RegisterForm />
             ) : null}
             {isRendererSupported ? null : (
                 <WebGlModal />
@@ -172,6 +177,7 @@ GUIComponent.propTypes = {
     enableExtensions: PropTypes.bool,
     feedbackFormVisible: PropTypes.bool,
     loginFormVisible: PropTypes.bool,
+    registerFormVisible: PropTypes.bool,
     intl: intlShape.isRequired,
     onExtensionButtonClick: PropTypes.func,
     onTabSelect: PropTypes.func,

@@ -8,6 +8,7 @@ const MODAL_COSTUME_LIBRARY = 'costumeLibrary';
 const MODAL_EXTENSION_LIBRARY = 'extensionLibrary';
 const MODAL_FEEDBACK_FORM = 'feedbackForm';
 const MODAL_LOGIN_FORM = 'loginForm';
+const MODAL_REGISTER_FORM = 'registerForm';
 const MODAL_PREVIEW_INFO = 'previewInfo';
 const MODAL_SOUND_LIBRARY = 'soundLibrary';
 const MODAL_SPRITE_LIBRARY = 'spriteLibrary';
@@ -20,6 +21,7 @@ const initialState = {
     [MODAL_EXTENSION_LIBRARY]: false,
     [MODAL_FEEDBACK_FORM]: false,
     [MODAL_LOGIN_FORM]: false,
+    [MODAL_REGISTER_FORM]: false,
     [MODAL_PREVIEW_INFO]: false,
     [MODAL_SOUND_LIBRARY]: false,
     [MODAL_SPRITE_LIBRARY]: false,
@@ -73,6 +75,10 @@ const openLoginForm = function () {
     analytics.pageview('/modals/login');
     return openModal(MODAL_LOGIN_FORM);
 };
+const openRegisterForm = function () {
+    analytics.pageview('/modals/register');
+    return openModal(MODAL_REGISTER_FORM);
+};
 const openSoundLibrary = function () {
     analytics.pageview('/libraries/sounds');
     return openModal(MODAL_SOUND_LIBRARY);
@@ -104,6 +110,9 @@ const closeFeedbackForm = function () {
 const closeLoginForm = function () {
     return closeModal(MODAL_LOGIN_FORM);
 };
+const closeRegisterForm = function () {
+    return closeModal(MODAL_REGISTER_FORM);
+};
 const closePreviewInfo = function () {
     return closeModal(MODAL_PREVIEW_INFO);
 };
@@ -123,6 +132,8 @@ export {
     openExtensionLibrary,
     openFeedbackForm,
     openLoginForm,
+    openRegisterForm,
+    closeRegisterForm,
     openPreviewInfo,
     openSoundLibrary,
     openSpriteLibrary,
