@@ -42,10 +42,10 @@ const MenuBar = props => {
                 />
             </div>
             <SaveButton className={styles.menuItem} />
+            <LoadButton className={styles.menuItem} />
             {validUser ? (
                 <SaveCloudButton className={styles.menuItem} />
             ) : null}
-            <LoadButton className={styles.menuItem} />
             {validUser ? (
                 <LoadCloudButton className={styles.menuItem} />
             ) : null}
