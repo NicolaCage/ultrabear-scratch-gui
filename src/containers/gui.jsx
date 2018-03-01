@@ -32,7 +32,7 @@ class GUI extends React.Component {
     
     checkAuth() {
         let jwt = cookie.load('jwt');
-        if (jwt == null || jwt.length == 0) {
+        if (!jwt) {
             this.props.onUnSetUser();
             console.log("continu as guest");
             return false;

@@ -14,7 +14,8 @@ const reducer = function (state, action) {
     if (typeof state === 'undefined') state = initialState;
     switch (action.type) {
     case SETUP_USER:
-        return action.user;
+        if (action.user) return action.user;
+        else return state;
     case SETUP_USER:
         return null;
     default:
