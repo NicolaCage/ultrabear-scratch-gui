@@ -98,6 +98,32 @@ const GUIComponent = props => {
             <MenuBar />
             <Box className={styles.bodyWrapper}>
                 <Box className={styles.flexWrapper}>
+                    
+
+                    <Box className={styles.stageAndTargetWrapper}>
+                        <Box className={styles.stageMenuWrapper}>
+                            <StageHeader vm={vm} />
+                        </Box>
+                        <Box className={styles.stageWrapper}>
+                            {/* eslint-disable arrow-body-style */}
+                            <MediaQuery minWidth={layout.fullSizeMinWidth}>{isFullSize => {
+                                return isRendererSupported ? (
+                                    <Stage
+                                        height={isFullSize ? layout.fullStageHeight : layout.smallerStageHeight}
+                                        shrink={0}
+                                        vm={vm}
+                                        width={isFullSize ? layout.fullStageWidth : layout.smallerStageWidth}
+                                    />
+                                ) : null;
+                            }}</MediaQuery>
+                            {/* eslint-enable arrow-body-style */}
+                        </Box>
+                        <Box className={styles.targetWrapper}>
+                            <TargetPane
+                                vm={vm}
+                            />
+                        </Box>
+                    </Box>
                     <Box className={styles.editorWrapper}>
                         <Tabs
                             className={tabClassNames.tabs}
@@ -145,31 +171,6 @@ const GUIComponent = props => {
                                 {tabIndex === 2 ? <SoundTab vm={vm} /> : null}
                             </TabPanel>
                         </Tabs>
-                    </Box>
-
-                    <Box className={styles.stageAndTargetWrapper}>
-                        <Box className={styles.stageMenuWrapper}>
-                            <StageHeader vm={vm} />
-                        </Box>
-                        <Box className={styles.stageWrapper}>
-                            {/* eslint-disable arrow-body-style */}
-                            <MediaQuery minWidth={layout.fullSizeMinWidth}>{isFullSize => {
-                                return isRendererSupported ? (
-                                    <Stage
-                                        height={isFullSize ? layout.fullStageHeight : layout.smallerStageHeight}
-                                        shrink={0}
-                                        vm={vm}
-                                        width={isFullSize ? layout.fullStageWidth : layout.smallerStageWidth}
-                                    />
-                                ) : null;
-                            }}</MediaQuery>
-                            {/* eslint-enable arrow-body-style */}
-                        </Box>
-                        <Box className={styles.targetWrapper}>
-                            <TargetPane
-                                vm={vm}
-                            />
-                        </Box>
                     </Box>
                 </Box>
             </Box>

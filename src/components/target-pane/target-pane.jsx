@@ -42,20 +42,6 @@ const TargetPane = ({
         {...componentProps}
     >
 
-        <SpriteSelectorComponent
-            selectedId={editingTarget}
-            sprites={sprites}
-            onChangeSpriteDirection={onChangeSpriteDirection}
-            onChangeSpriteName={onChangeSpriteName}
-            onChangeSpriteSize={onChangeSpriteSize}
-            onChangeSpriteVisibility={onChangeSpriteVisibility}
-            onChangeSpriteX={onChangeSpriteX}
-            onChangeSpriteY={onChangeSpriteY}
-            onDeleteSprite={onDeleteSprite}
-            onDuplicateSprite={onDuplicateSprite}
-            onNewSpriteClick={onNewSpriteClick}
-            onSelectSprite={onSelectSprite}
-        />
         <div className={styles.stageSelectorWrapper}>
             {stage.id && <StageSelector
                 assetId={
@@ -82,6 +68,20 @@ const TargetPane = ({
                 ) : null}
             </div>
         </div>
+        <SpriteSelectorComponent
+            selectedId={editingTarget}
+            sprites={sprites}
+            onChangeSpriteDirection={onChangeSpriteDirection}
+            onChangeSpriteName={onChangeSpriteName}
+            onChangeSpriteSize={onChangeSpriteSize}
+            onChangeSpriteVisibility={onChangeSpriteVisibility}
+            onChangeSpriteX={onChangeSpriteX}
+            onChangeSpriteY={onChangeSpriteY}
+            onDeleteSprite={onDeleteSprite}
+            onDuplicateSprite={onDuplicateSprite}
+            onNewSpriteClick={onNewSpriteClick}
+            onSelectSprite={onSelectSprite}
+        />
     </div>
 );
 
