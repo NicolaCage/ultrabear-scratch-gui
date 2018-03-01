@@ -114,7 +114,7 @@ class SaveCloudButton extends React.Component {
                 onClick={this.handleClick}
                 {...props}
             >
-                Save on Cloud
+                保存
             </ButtonComponent>
         );
     }

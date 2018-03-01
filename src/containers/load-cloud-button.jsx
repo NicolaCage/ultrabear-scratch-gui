@@ -48,7 +48,7 @@ class LoadCloudButton extends React.Component {
                 onClick={this.handleClick}
                 {...props}
             >
-                Load from Cloud
+                导入
             </ButtonComponent>
         );
     }

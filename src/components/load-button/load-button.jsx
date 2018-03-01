@@ -36,6 +36,6 @@ LoadButtonComponent.propTypes = {
     title: PropTypes.string
 };
 LoadButtonComponent.defaultProps = {
-    title: 'Load Local'
+    title: '本地导入'
 };
 export default LoadButtonComponent;

@@ -62,7 +62,7 @@ const MenuBar = props => {
                     />
                     <span className={styles.feedbackText}>
                         <FormattedMessage
-                            defaultMessage="Login"
+                            defaultMessage="登录"
                             description="Label for login form modal button"
                             id="gui.menuBar.giveFeedback"
                         />
@@ -70,7 +70,7 @@ const MenuBar = props => {
                 </Button>
             {validUser ? (
                 <span className={styles.feedbackText}>
-                    {"Welcome - " + props.user.name}
+                    {"欢迎 - " + props.user.name}
                 </span>
             ) : null}
         </div>

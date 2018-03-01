@@ -93,7 +93,7 @@ class SaveButton extends React.Component {
                 onClick={this.handleClick}
                 {...props}
             >
-                Save Local
+                本地保存
             </ButtonComponent>
         );
     }
