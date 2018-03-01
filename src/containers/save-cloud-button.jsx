@@ -25,7 +25,7 @@ class SaveCloudButton extends React.Component {
 
         let hash = md5(json);
         let projectId = md5(this.props.user.id) + hash;
-        let name = "new project by" + this.props.user.id;
+        let name = "new project by " + this.props.user.id;
         
         // Project NOT changed
         if (this.props.project.owner == this.props.user.id) {

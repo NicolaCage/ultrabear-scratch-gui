@@ -13,6 +13,7 @@ const MODAL_PREVIEW_INFO = 'previewInfo';
 const MODAL_SOUND_LIBRARY = 'soundLibrary';
 const MODAL_SPRITE_LIBRARY = 'spriteLibrary';
 const MODAL_SOUND_RECORDER = 'soundRecorder';
+const MODAL_PROJECT_LIST = 'projectList';
 
 
 const initialState = {
@@ -25,7 +26,8 @@ const initialState = {
     [MODAL_PREVIEW_INFO]: false,
     [MODAL_SOUND_LIBRARY]: false,
     [MODAL_SPRITE_LIBRARY]: false,
-    [MODAL_SOUND_RECORDER]: false
+    [MODAL_SOUND_RECORDER]: false,
+    [MODAL_PROJECT_LIST]: false,
 };
 
 const reducer = function (state, action) {
@@ -95,6 +97,10 @@ const openPreviewInfo = function () {
     analytics.pageview('/modals/preview');
     return openModal(MODAL_PREVIEW_INFO);
 };
+const openProjectList = function () {
+    analytics.pageview('/modals/projectlist');
+    return openModal(MODAL_PROJECT_LIST);
+};
 const closeBackdropLibrary = function () {
     return closeModal(MODAL_BACKDROP_LIBRARY);
 };
@@ -125,6 +131,9 @@ const closeSoundLibrary = function () {
 const closeSoundRecorder = function () {
     return closeModal(MODAL_SOUND_RECORDER);
 };
+const closeProjectList = function () {
+    return closeModal(MODAL_PROJECT_LIST);
+};
 export {
     reducer as default,
     openBackdropLibrary,
@@ -138,6 +147,7 @@ export {
     openSoundLibrary,
     openSpriteLibrary,
     openSoundRecorder,
+    openProjectList,
     closeBackdropLibrary,
     closeCostumeLibrary,
     closeExtensionLibrary,
@@ -146,5 +156,6 @@ export {
     closePreviewInfo,
     closeSpriteLibrary,
     closeSoundLibrary,
-    closeSoundRecorder
+    closeSoundRecorder,
+    closeProjectList
 };

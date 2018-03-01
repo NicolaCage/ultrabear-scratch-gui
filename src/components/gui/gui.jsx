@@ -15,6 +15,7 @@ import SoundTab from '../../containers/sound-tab.jsx';
 import StageHeader from '../../containers/stage-header.jsx';
 import Stage from '../../containers/stage.jsx';
 import LoginForm from '../../containers/login-form.jsx';
+import ProjectList from '../../containers/project-list.jsx';
 import RegisterForm from '../../containers/register-form.jsx';
 
 import Box from '../box/box.jsx';
@@ -43,6 +44,7 @@ const GUIComponent = props => {
         intl,
         feedbackFormVisible,
         loginFormVisible,
+        projectListVisible,
         registerFormVisible,
         vm,
         previewInfoVisible,
@@ -83,6 +85,9 @@ const GUIComponent = props => {
             ) : null}
             {loginFormVisible ? (
                 <LoginForm />
+            ) : null}
+            {projectListVisible ? (
+                <ProjectList />
             ) : null}
             {registerFormVisible ? (
                 <RegisterForm />
@@ -177,6 +182,7 @@ GUIComponent.propTypes = {
     enableExtensions: PropTypes.bool,
     feedbackFormVisible: PropTypes.bool,
     loginFormVisible: PropTypes.bool,
+    projectListVisible: PropTypes.bool,
     registerFormVisible: PropTypes.bool,
     intl: intlShape.isRequired,
     onExtensionButtonClick: PropTypes.func,

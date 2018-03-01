@@ -160,6 +160,7 @@ GUI.propTypes = {
     ...GUIComponent.propTypes,
     feedbackFormVisible: PropTypes.bool,
     loginFormVisible: PropTypes.bool,
+    projectListVisible: PropTypes.bool,
     registerFormVisible: PropTypes.bool,
     previewInfoVisible: PropTypes.bool,
     projectData: PropTypes.string,
@@ -171,6 +172,7 @@ GUI.defaultProps = GUIComponent.defaultProps;
 const mapStateToProps = state => ({
     feedbackFormVisible: state.modals.feedbackForm,
     loginFormVisible: state.modals.loginForm,
+    projectListVisible: state.modals.projectList,
     registerFormVisible: state.modals.registerForm,
     previewInfoVisible: state.modals.previewInfo
 });
