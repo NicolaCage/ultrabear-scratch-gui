@@ -11,6 +11,7 @@ import vmReducer from './vm';
 import stageSizeReducer from './stage-size';
 import {ScratchPaintReducer} from 'scratch-paint';
 import userReducer from './user';
+import projectReducer from './project';
 
 export default combineReducers({
     colorPicker: colorPickerReducer,
@@ -24,5 +25,6 @@ export default combineReducers({
     toolbox: toolboxReducer,
     vm: vmReducer,
     scratchPaint: ScratchPaintReducer,
-    user: userReducer
+    user: userReducer,
+    project: projectReducer,
 });

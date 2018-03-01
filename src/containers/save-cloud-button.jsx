@@ -6,6 +6,8 @@ import VM from 'scratch-vm';
 import xhr from 'xhr';
 import md5 from 'md5';
 import ButtonComponent from '../components/button/button.jsx';
+import {setProject} from '../reducers/project';
+import { ASSETS_ROOT } from '../api-config';
 
 class SaveCloudButton extends React.Component {
     constructor (props) {
@@ -19,23 +21,42 @@ class SaveCloudButton extends React.Component {
         // TODO: UltraBear
         // Even after we edit the stage costume in paint. The format of it is still png, not svg, which is actually svg now.
         // Is it a scratch bug or not consider format yet? I see a "Convert to Bitmap in paint area", seems not implemented.
+        let json = this.props.saveProjectSb3();
 
-        const json = this.props.saveProjectSb3();
-
-        // File name: project-DATE-TIME-HASH
-        const date = new Date();
-        const prefix = `user-project-${date.toLocaleDateString()}-${date.toLocaleTimeString()}`;
-        const hash = md5(prefix + json);
-        const projectName = `${hash}`;
+        let hash = md5(json);
+        let projectId = md5(this.props.user.id) + hash;
+        let name = "new project by" + this.props.user.id;
+        
+        // Project NOT changed
+        if (this.props.project.owner == this.props.user.id) {
+            projectId = this.props.project.id
+        }
         
         xhr({
             method: "POST",
-            url: "https://assets.ultrabear.com.cn/projects/" + projectName,
-            body: json,
+            url: ASSETS_ROOT + "/projects",
+            body: JSON.stringify({
+                id: projectId,
+                name: this.props.project.name,
+                owner: this.props.user.id,
+                hash: hash,
+                data: json
+            }),
         }, (err, response, body) => {
             if (!err) {
-                alert("上传成功，项目代码 ：" + projectName);
+                if ( this.props.project.owner == this.props.user.id ) {
+                    alert("保存成功");
+                }
+                else {
+                    alert("上传成功，项目代码 ：" + projectId);
+                }
                 console.log("project saved");
+                this.props.setProject({
+                    id: projectId,
+                    name: name,
+                    owner: this.props.user.id,
+                    hash: hash,
+                });
             }
         });
 
@@ -52,10 +73,10 @@ class SaveCloudButton extends React.Component {
         this.uploadStageCostumes(this.props.stage);
     }
     uploadSpriteCostumes(sprite) {
-        this.uploadSVG(sprite, "https://assets.ultrabear.com.cn/custumes");
+        this.uploadSVG(sprite, ASSETS_ROOT + "/custumes");
     }
     uploadStageCostumes(sprite) {
-        this.uploadSVG(sprite, "https://assets.ultrabear.com.cn/backdrops");
+        this.uploadSVG(sprite, ASSETS_ROOT + "/backdrops");
     }
     uploadSVG(sprite, url) {
         if (!sprite || !sprite.costumes) return;
@@ -76,7 +97,6 @@ class SaveCloudButton extends React.Component {
                 url: url,
                 body: form,
             }, (err, response, body) => {
-                debugger
                 if (!err) {
                     console.log("new svg saved");
                 }
@@ -86,6 +106,7 @@ class SaveCloudButton extends React.Component {
     render () {
         const {
             saveProjectSb3, // eslint-disable-line no-unused-vars
+            setProject,
             ...props
         } = this.props;
         return (
@@ -108,10 +129,16 @@ const mapStateToProps = state => ({
     sprites: state.targets.sprites,
     stage: state.targets.stage,
     vm: state.vm,
-    saveProjectSb3: state.vm.saveProjectSb3.bind(state.vm)
+    saveProjectSb3: state.vm.saveProjectSb3.bind(state.vm),
+    project: state.project,
+    user: state.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+    setProject: (project) => dispatch(setProject(project)),
 });
 
 export default connect(
     mapStateToProps,
-    () => ({}) // omit dispatch prop
+    mapDispatchToProps
 )(SaveCloudButton);

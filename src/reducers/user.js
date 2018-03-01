@@ -1,5 +1,10 @@
 const initialState = {
-    user: null
+    id: null,
+    permission: null,
+    name: null,
+    openId: null,
+    unionId: null,
+    jwt: null,
 };
 
 const SETUP_USER = 'scratch-gui/user/SETUP_USER';
@@ -9,13 +14,9 @@ const reducer = function (state, action) {
     if (typeof state === 'undefined') state = initialState;
     switch (action.type) {
     case SETUP_USER:
-        return {
-            user: action.user
-        };
+        return action.user;
     case SETUP_USER:
-        return {
-            user: null
-        };
+        return null;
     default:
         return state;
     }

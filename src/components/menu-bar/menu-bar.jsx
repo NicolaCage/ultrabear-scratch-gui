@@ -21,7 +21,10 @@ import scratchLogo from './scratch-logo.svg';
 
 const MenuBar = props => {
     // Hide some buttons base on user log in status
-    let validUser = !!props.user && !!props.user.id && !!props.user.unionid;
+
+    // Test, should DO NOT! COMMIT THIS
+    let validUser = !!props.user && !!props.user.id;
+    // let validUser = !!props.user && !!props.user.id && !!props.user.unionid;
 
     return (
     <Box
@@ -48,23 +51,28 @@ const MenuBar = props => {
             ) : null}
         </div>
         <div className={styles.feedbackButtonWrapper}>
-            <Button
-                className={styles.feedbackButton}
-                onClick={props.onLoginClicked}
-            >
-                <img
-                    className={styles.feedbackButtonIcon}
-                    draggable={false}
-                    src={feedbackIcon}
-                />
-                <span className={styles.feedbackText}>
-                    <FormattedMessage
-                        defaultMessage="Login"
-                        description="Label for login form modal button"
-                        id="gui.menuBar.giveFeedback"
+                <Button
+                    className={styles.feedbackButton}
+                    onClick={props.onLoginClicked}
+                >
+                    <img
+                        className={styles.feedbackButtonIcon}
+                        draggable={false}
+                        src={feedbackIcon}
                     />
+                    <span className={styles.feedbackText}>
+                        <FormattedMessage
+                            defaultMessage="Login"
+                            description="Label for login form modal button"
+                            id="gui.menuBar.giveFeedback"
+                        />
+                    </span>
+                </Button>
+            {validUser ? (
+                <span className={styles.feedbackText}>
+                    {"Welcome - " + props.user.name}
                 </span>
-            </Button>
+            ) : null}
         </div>
     </Box>
     )
@@ -75,7 +83,7 @@ MenuBar.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    user: state.user.user
+    user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
