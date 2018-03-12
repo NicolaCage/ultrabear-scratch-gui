@@ -14,7 +14,7 @@ import cookie from 'react-cookies';
 import { AUTH_ROOT } from '../api-config';
 
 const loginValidSeconds = 60*60;
-const AppId = "123";
+const AppId = "wx8811da75092d28c4";
 const WechatRedirectUrl = "https://coding.ultrabear.com.cn";
 
 class LoginForm extends React.Component {
@@ -70,8 +70,16 @@ class LoginForm extends React.Component {
                 cookie.save('userName', decoded.name, { path: '/', maxAge: loginValidSeconds });
                 cookie.save('permission', decoded.permission, { path: '/', maxAge: loginValidSeconds });
                 cookie.save('jwt', jwt, { path: '/', maxAge: loginValidSeconds });
-                alert("login successfully");
                 this.props.close();
+
+                if (body.msg.includes("wechat")) {
+                    // Not set up wechat yet
+                    alert("还未绑定微信，请扫码绑定");
+                    this.handleScan();
+                }
+                else {
+                    log("登录成功");
+                }
             }
             else {
                 switch (body.code) {
