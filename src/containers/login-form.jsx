@@ -56,28 +56,27 @@ class LoginForm extends React.Component {
         }, (err, response, body) => {
             body = JSON.parse(body);
             if (!err && body.data && body.code == 0) {
-                let jwt = body.data;
-                var decoded = jwtDecode(jwt);
-                this.props.setUser({
-                    id: decoded.id,
-                    permission: decoded.permission,
-                    name: decoded.name,
-                    openId: decoded.openId,
-                    unionId: decoded.unionId,
-                    jwt: jwt
-                });
-                cookie.save('userId', decoded.id, { path: '/', maxAge: loginValidSeconds });
-                cookie.save('userName', decoded.name, { path: '/', maxAge: loginValidSeconds });
-                cookie.save('permission', decoded.permission, { path: '/', maxAge: loginValidSeconds });
-                cookie.save('jwt', jwt, { path: '/', maxAge: loginValidSeconds });
-                this.props.close();
-
                 if (body.msg.includes("wechat")) {
                     // Not set up wechat yet
                     alert("还未绑定微信，请扫码绑定");
                     this.handleScan();
                 }
                 else {
+                    let jwt = body.data;
+                    var decoded = jwtDecode(jwt);
+                    this.props.setUser({
+                        id: decoded.id,
+                        permission: decoded.permission,
+                        name: decoded.name,
+                        openId: decoded.openId,
+                        unionId: decoded.unionId,
+                        jwt: jwt
+                    });
+                    cookie.save('userId', decoded.id, { path: '/', maxAge: loginValidSeconds });
+                    cookie.save('userName', decoded.name, { path: '/', maxAge: loginValidSeconds });
+                    cookie.save('permission', decoded.permission, { path: '/', maxAge: loginValidSeconds });
+                    cookie.save('jwt', jwt, { path: '/', maxAge: loginValidSeconds });
+                    this.props.close();
                     log("登录成功");
                 }
             }
