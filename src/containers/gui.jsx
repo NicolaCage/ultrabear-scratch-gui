@@ -74,7 +74,7 @@ class GUI extends React.Component {
         if (code) {
             xhr({
                 method: "POST",
-                url: AUTH_ROOT + '/wechat',
+                url: AUTH_ROOT + '/wechat/coding',
                 body: JSON.stringify({
                     code: code
                 }),
