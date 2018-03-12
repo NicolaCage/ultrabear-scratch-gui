@@ -3,6 +3,7 @@ const initialState = {
     name: "new project",
     owner: "",
     hash: "",
+    teacher: "",
 };
 
 const SETUP_PROJECT = 'scratch-gui/project/SETUP_PROJECT';
@@ -25,6 +26,7 @@ const setProject = function (projectInfo) {
             name: projectInfo.name,
             owner: projectInfo.owner,
             hash: projectInfo.hash,
+            teacher: projectInfo.teacher,
         }
     };
 };

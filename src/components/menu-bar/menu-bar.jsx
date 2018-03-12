@@ -10,10 +10,11 @@ import LoadButton from '../../containers/load-button.jsx';
 import LoadCloudButton from '../../containers/load-cloud-button.jsx';
 import SaveButton from '../../containers/save-button.jsx';
 import SaveCloudButton from '../../containers/save-cloud-button.jsx';
+import AssginProjectButton from '../../containers/assign-project-button.jsx';
 import LanguageSelector from '../../containers/language-selector.jsx';
+import UploadAssetsButton from '../../containers/upload-assets-button.jsx';
 
 import {openLoginForm} from '../../reducers/modals';
-
 import styles from './menu-bar.css';
 
 import feedbackIcon from './icon--feedback.svg';
@@ -25,6 +26,8 @@ const MenuBar = props => {
     // Test, should DO NOT! COMMIT THIS
     let validUser = !!props.user && !!props.user.id;
     // let validUser = !!props.user && !!props.user.id && !!props.user.unionid;
+    
+    let validTeacher = validUser && !!props.user.permission && !!props.user.permission.teacher;
 
     return (
     <Box
@@ -48,6 +51,12 @@ const MenuBar = props => {
             ) : null}
             {validUser ? (
                 <LoadCloudButton className={styles.menuItem} />
+            ) : null}
+            {validTeacher ? (
+                <AssginProjectButton className={styles.menuItem} />
+            ) : null}
+            {validTeacher ? (
+                <UploadAssetsButton className={styles.menuItem} />
             ) : null}
         </div>
         <div className={styles.feedbackButtonWrapper}>

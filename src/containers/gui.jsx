@@ -163,6 +163,7 @@ GUI.propTypes = {
     projectListVisible: PropTypes.bool,
     registerFormVisible: PropTypes.bool,
     previewInfoVisible: PropTypes.bool,
+    assignProjectVisible: PropTypes.bool,
     projectData: PropTypes.string,
     vm: PropTypes.instanceOf(VM),
 };
@@ -174,7 +175,8 @@ const mapStateToProps = state => ({
     loginFormVisible: state.modals.loginForm,
     projectListVisible: state.modals.projectList,
     registerFormVisible: state.modals.registerForm,
-    previewInfoVisible: state.modals.previewInfo
+    previewInfoVisible: state.modals.previewInfo,
+    assignProjectVisible: state.modals.assignProject,
 });
 
 const mapDispatchToProps = dispatch => ({

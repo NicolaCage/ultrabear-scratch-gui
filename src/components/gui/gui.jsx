@@ -17,6 +17,7 @@ import Stage from '../../containers/stage.jsx';
 import LoginForm from '../../containers/login-form.jsx';
 import ProjectList from '../../containers/project-list.jsx';
 import RegisterForm from '../../containers/register-form.jsx';
+import AssginProjectWindow from '../../containers/assign-project-window.jsx';
 
 import Box from '../box/box.jsx';
 import FeedbackForm from '../feedback-form/feedback-form.jsx';
@@ -46,6 +47,7 @@ const GUIComponent = props => {
         loginFormVisible,
         projectListVisible,
         registerFormVisible,
+        assignProjectVisible,
         vm,
         previewInfoVisible,
         onExtensionButtonClick,
@@ -91,6 +93,9 @@ const GUIComponent = props => {
             ) : null}
             {registerFormVisible ? (
                 <RegisterForm />
+            ) : null}
+            {assignProjectVisible ? (
+                <AssginProjectWindow />
             ) : null}
             {isRendererSupported ? null : (
                 <WebGlModal />
@@ -185,6 +190,7 @@ GUIComponent.propTypes = {
     loginFormVisible: PropTypes.bool,
     projectListVisible: PropTypes.bool,
     registerFormVisible: PropTypes.bool,
+    assignProjectVisible: PropTypes.bool,
     intl: intlShape.isRequired,
     onExtensionButtonClick: PropTypes.func,
     onTabSelect: PropTypes.func,

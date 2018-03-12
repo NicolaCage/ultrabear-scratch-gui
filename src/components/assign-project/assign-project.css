@@ -1,0 +1,58 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+@import "../../css/typography.css";
+
+$content-width: 300px;
+$content-max-height: 400px;
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    background-color: hsla(215, 100%, 65%, .9);
+}
+
+.section {
+    display: block;
+}
+
+.section label {
+    display: inline-block;
+    width: 60px;
+}
+
+.modal-content {
+    margin: 100px auto;
+    outline: none;
+    border: .25rem solid hsla(0, 100%, 100%, .25);
+    padding: 0;
+    border-radius: $space;
+    user-select: none;
+    width: $content-width;
+    color: $text-primary;
+    overflow: hidden;
+}
+
+.projectList {
+    list-style-type: none;
+}
+
+.listItem {
+    cursor: pointer;
+    margin: 10px;
+}
+.listItem:hover { 
+    background-color: hsla(215, 100%, 65%, .9); 
+}
+.body {
+    /* Need to repeat dimensions here to allow iframe scrolling for iOS */
+    width: $content-width;
+    background: $ui-pane-gray;
+    max-height: $content-max-height;
+    /* These properties needed to allow iframe scrolling for iOS */
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
