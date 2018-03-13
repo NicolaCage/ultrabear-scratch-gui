@@ -25,8 +25,10 @@ class SaveCloudButton extends React.Component {
 
         let hash = md5(json);
         let projectId = md5(this.props.user.id) + hash;
-        let name = "new project by " + this.props.user.id;
-        
+        let name = prompt("给项目起个名字吧：");
+        if (!name) {
+            return;
+        }
         // Project NOT changed
         if (this.props.project.owner == this.props.user.id) {
             projectId = this.props.project.id
@@ -37,7 +39,7 @@ class SaveCloudButton extends React.Component {
             url: ASSETS_ROOT + "/projects",
             body: JSON.stringify({
                 id: projectId,
-                name: this.props.project.name,
+                name: name,
                 owner: this.props.user.id,
                 hash: hash,
                 data: json
