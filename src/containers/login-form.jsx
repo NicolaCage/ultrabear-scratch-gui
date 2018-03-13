@@ -77,7 +77,7 @@ class LoginForm extends React.Component {
                     cookie.save('permission', decoded.permission, { path: '/', maxAge: loginValidSeconds });
                     cookie.save('jwt', jwt, { path: '/', maxAge: loginValidSeconds });
                     this.props.close();
-                    log("登录成功");
+                    console.log("登录成功");
                 }
             }
             else {
