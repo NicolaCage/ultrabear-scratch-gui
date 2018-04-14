@@ -18,6 +18,8 @@ import {setUser, unsetUser} from '../reducers/user';
 import {openRegisterForm} from '../reducers/modals';
 import cookie from 'react-cookies';
 
+import protocol from '../lib/websocket-protocol';
+
 const loginValidSeconds = 60*60;
 
 class GUI extends React.Component {
@@ -25,9 +27,16 @@ class GUI extends React.Component {
         super(props);
         bindAll(this, [
             'handleTabSelect',
-            'checkAuth'
+            'checkAuth',
+            'handleWSOpen',
+            'handleWSClose',
+            'handleWSData',
+            'sendWSPacket',
         ]);
-        this.state = {tabIndex: 0};
+        this.state = {
+            tabIndex: 0,
+            socket: null
+        };
     }
     
     checkAuth() {
@@ -50,6 +59,34 @@ class GUI extends React.Component {
         return true;
     }
 
+    handleWSOpen () {
+        alert("opened");
+    }
+
+    handleWSClose () {
+        alert("closed");
+    }
+
+    handleWSData (msg) {
+        let decoded = JSON.parse(msg.data);
+        if(decoded.type === protocol.MSG_REQUEST_PROJECT_SB3) {
+            let getSb3 = this.props.vm.saveProjectSb3.bind(this.props.vm);
+            let sb3 = getSb3();
+            this.sendWSPacket(protocol.MSG_RESPONSE_PROJECT_SB3, sb3);
+        }
+        else if(decoded.type === protocol.MSG_STATUS_CHECK) {
+            this.sendWSPacket(protocol.MSG_ALIVE, null);
+        }
+    }
+
+    sendWSPacket (type, data) {
+        let msg = JSON.stringify({
+            type: type,
+            data: data
+        })
+        this.state.socket.send(msg)
+    }
+
     componentDidMount () {
         let self = this;
         this.audioEngine = new AudioEngine();
@@ -58,6 +95,17 @@ class GUI extends React.Component {
         this.props.vm.setCompatibilityMode(true);
         this.props.vm.start();
 
+        // Deal with Websocket
+        let uid = prompt("user id");
+        let socket = new WebSocket('ws://localhost:8600/connect/' + uid);
+        socket.onopen = () => this.handleWSOpen();
+        socket.onmessage = (m) => this.handleWSData(m);
+        socket.onclose = () => this.handleWSClose();
+        this.setState({
+            socket: socket
+        });
+
+        // Deal with Wechat Redirect
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
