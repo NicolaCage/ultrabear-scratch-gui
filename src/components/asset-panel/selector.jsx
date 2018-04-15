@@ -4,7 +4,7 @@ import React from 'react';
 import SpriteSelectorItem from '../../containers/sprite-selector-item.jsx';
 
 import Box from '../box/box.jsx';
-import AssetButton from '../asset-button/asset-button.jsx';
+import ActionMenu from '../action-menu/action-menu.jsx';
 import styles from './selector.css';
 
 const Selector = props => {
@@ -13,8 +13,26 @@ const Selector = props => {
         items,
         selectedItemIndex,
         onDeleteClick,
+        onDuplicateClick,
         onItemClick
     } = props;
+
+    let newButtonSection = null;
+
+    if (buttons.length > 0) {
+        const {img, title, onClick} = buttons[0];
+        const moreButtons = buttons.slice(1);
+        newButtonSection = (
+            <Box className={styles.newButtons}>
+                <ActionMenu
+                    img={img}
+                    moreButtons={moreButtons}
+                    title={title}
+                    onClick={onClick}
+                />
+            </Box>
+        );
+    }
 
     return (
         <Box className={styles.wrapper}>
@@ -24,40 +42,35 @@ const Selector = props => {
                         assetId={item.assetId}
                         className={styles.listItem}
                         costumeURL={item.url}
+                        details={item.details}
                         id={index}
                         key={`asset-${index}`}
                         name={item.name}
+                        number={index + 1 /* 1-indexed */}
                         selected={index === selectedItemIndex}
                         onClick={onItemClick}
                         onDeleteButtonClick={onDeleteClick}
+                        onDuplicateButtonClick={onDuplicateClick}
                     />
                 ))}
             </Box>
-            <Box className={styles.newButtons}>
-                {buttons.map(({message, img, onClick}, index) => (
-                    <AssetButton
-                        img={img}
-                        key={index}
-                        title={message}
-                        onClick={onClick}
-                    />
-                ))}
-            </Box>
+            {newButtonSection}
         </Box>
     );
 };
 
 Selector.propTypes = {
     buttons: PropTypes.arrayOf(PropTypes.shape({
-        message: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
         img: PropTypes.string.isRequired,
-        onClick: PropTypes.func.isRequired
+        onClick: PropTypes.func
     })),
     items: PropTypes.arrayOf(PropTypes.shape({
         url: PropTypes.string,
         name: PropTypes.string.isRequired
     })),
     onDeleteClick: PropTypes.func,
+    onDuplicateClick: PropTypes.func,
     onItemClick: PropTypes.func.isRequired,
     selectedItemIndex: PropTypes.number.isRequired
 };

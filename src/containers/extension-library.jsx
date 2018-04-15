@@ -7,7 +7,7 @@ import extensionLibraryContent from '../lib/libraries/extensions/index';
 
 import analytics from '../lib/analytics';
 import LibraryComponent from '../components/library/library.jsx';
-import extensionIcon from '../components/sprite-selector/icon--sprite.svg';
+import extensionIcon from '../components/action-menu/icon--sprite.svg';
 
 class ExtensionLibrary extends React.PureComponent {
     constructor (props) {
@@ -45,7 +45,7 @@ class ExtensionLibrary extends React.PureComponent {
         return (
             <LibraryComponent
                 data={extensionLibraryThumbnailData}
-                title="Extension Library"
+                title="Choose an Extension"
                 visible={this.props.visible}
                 onItemSelected={this.handleItemSelect}
                 onRequestClose={this.props.onRequestClose}

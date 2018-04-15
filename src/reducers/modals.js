@@ -7,28 +7,25 @@ const MODAL_BACKDROP_LIBRARY = 'backdropLibrary';
 const MODAL_COSTUME_LIBRARY = 'costumeLibrary';
 const MODAL_EXTENSION_LIBRARY = 'extensionLibrary';
 const MODAL_FEEDBACK_FORM = 'feedbackForm';
-const MODAL_LOGIN_FORM = 'loginForm';
-const MODAL_REGISTER_FORM = 'registerForm';
+const MODAL_IMPORT_INFO = 'importInfo';
+const MODAL_LOADING_PROJECT = 'loadingProject';
 const MODAL_PREVIEW_INFO = 'previewInfo';
 const MODAL_SOUND_LIBRARY = 'soundLibrary';
 const MODAL_SPRITE_LIBRARY = 'spriteLibrary';
 const MODAL_SOUND_RECORDER = 'soundRecorder';
-const MODAL_PROJECT_LIST = 'projectList';
-const MODAL_ASSIGN_PROJECT = "assignProject";
+
 
 const initialState = {
     [MODAL_BACKDROP_LIBRARY]: false,
     [MODAL_COSTUME_LIBRARY]: false,
     [MODAL_EXTENSION_LIBRARY]: false,
     [MODAL_FEEDBACK_FORM]: false,
-    [MODAL_LOGIN_FORM]: false,
-    [MODAL_REGISTER_FORM]: false,
-    [MODAL_PREVIEW_INFO]: false,
+    [MODAL_IMPORT_INFO]: false,
+    [MODAL_LOADING_PROJECT]: false,
+    [MODAL_PREVIEW_INFO]: true,
     [MODAL_SOUND_LIBRARY]: false,
     [MODAL_SPRITE_LIBRARY]: false,
-    [MODAL_SOUND_RECORDER]: false,
-    [MODAL_PROJECT_LIST]: false,
-    [MODAL_ASSIGN_PROJECT]: false,
+    [MODAL_SOUND_RECORDER]: false
 };
 
 const reducer = function (state, action) {
@@ -74,13 +71,17 @@ const openFeedbackForm = function () {
     analytics.pageview('/modals/feedback');
     return openModal(MODAL_FEEDBACK_FORM);
 };
-const openLoginForm = function () {
-    analytics.pageview('/modals/login');
-    return openModal(MODAL_LOGIN_FORM);
+const openImportInfo = function () {
+    analytics.pageview('modals/import');
+    return openModal(MODAL_IMPORT_INFO);
 };
-const openRegisterForm = function () {
-    analytics.pageview('/modals/register');
-    return openModal(MODAL_REGISTER_FORM);
+const openLoadingProject = function () {
+    analytics.pageview('modals/loading');
+    return openModal(MODAL_LOADING_PROJECT);
+};
+const openPreviewInfo = function () {
+    analytics.pageview('/modals/preview');
+    return openModal(MODAL_PREVIEW_INFO);
 };
 const openSoundLibrary = function () {
     analytics.pageview('/libraries/sounds');
@@ -94,19 +95,6 @@ const openSoundRecorder = function () {
     analytics.pageview('/modals/microphone');
     return openModal(MODAL_SOUND_RECORDER);
 };
-const openPreviewInfo = function () {
-    analytics.pageview('/modals/preview');
-    return openModal(MODAL_PREVIEW_INFO);
-};
-const openProjectList = function () {
-    analytics.pageview('/modals/projectlist');
-    return openModal(MODAL_PROJECT_LIST);
-};
-const openAssignProjectWindow = function () {
-    analytics.pageview('/modals/assignproject');
-    return openModal(MODAL_ASSIGN_PROJECT);
-};
-
 const closeBackdropLibrary = function () {
     return closeModal(MODAL_BACKDROP_LIBRARY);
 };
@@ -119,11 +107,11 @@ const closeExtensionLibrary = function () {
 const closeFeedbackForm = function () {
     return closeModal(MODAL_FEEDBACK_FORM);
 };
-const closeLoginForm = function () {
-    return closeModal(MODAL_LOGIN_FORM);
+const closeImportInfo = function () {
+    return closeModal(MODAL_IMPORT_INFO);
 };
-const closeRegisterForm = function () {
-    return closeModal(MODAL_REGISTER_FORM);
+const closeLoadingProject = function () {
+    return closeModal(MODAL_LOADING_PROJECT);
 };
 const closePreviewInfo = function () {
     return closeModal(MODAL_PREVIEW_INFO);
@@ -137,36 +125,26 @@ const closeSoundLibrary = function () {
 const closeSoundRecorder = function () {
     return closeModal(MODAL_SOUND_RECORDER);
 };
-const closeProjectList = function () {
-    return closeModal(MODAL_PROJECT_LIST);
-};
-const closeAssignProjectWindow = function () {
-    return closeModal(MODAL_ASSIGN_PROJECT);
-};
 export {
     reducer as default,
     openBackdropLibrary,
     openCostumeLibrary,
     openExtensionLibrary,
     openFeedbackForm,
-    openLoginForm,
-    openRegisterForm,
+    openImportInfo,
+    openLoadingProject,
     openPreviewInfo,
     openSoundLibrary,
     openSpriteLibrary,
     openSoundRecorder,
-    openProjectList,
-    openAssignProjectWindow,
     closeBackdropLibrary,
     closeCostumeLibrary,
     closeExtensionLibrary,
     closeFeedbackForm,
-    closeLoginForm,
+    closeImportInfo,
+    closeLoadingProject,
     closePreviewInfo,
     closeSpriteLibrary,
     closeSoundLibrary,
-    closeSoundRecorder,
-    closeRegisterForm,
-    closeProjectList,
-    closeAssignProjectWindow,
+    closeSoundRecorder
 };

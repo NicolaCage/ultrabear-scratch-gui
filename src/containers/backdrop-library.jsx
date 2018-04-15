@@ -2,13 +2,11 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import VM from 'scratch-vm';
-import xhr from 'xhr';
 
 import analytics from '../lib/analytics';
-// import backdropLibraryContent from '../lib/libraries/backdrops.json';
+import backdropLibraryContent from '../lib/libraries/backdrops.json';
 import LibraryComponent from '../components/library/library.jsx';
 
-const backdropsUrl = "https://assets.ultrabear.com.cn/backdrops";
 
 class BackdropLibrary extends React.Component {
     constructor (props) {
@@ -16,9 +14,6 @@ class BackdropLibrary extends React.Component {
         bindAll(this, [
             'handleItemSelect'
         ]);
-        this.state = {
-            backdropLibraryContent: []
-        }
     }
     handleItemSelect (item) {
         const vmBackdrop = {
@@ -28,32 +23,18 @@ class BackdropLibrary extends React.Component {
             bitmapResolution: item.info.length > 2 ? item.info[2] : 1,
             skinId: null
         };
-        this.props.vm.addBackdrop(item.md5, vmBackdrop).then(() => {
-            if (this.props.onNewBackdrop) {
-                this.props.onNewBackdrop();
-            }
-        });
+        this.props.vm.addBackdrop(item.md5, vmBackdrop);
         analytics.event({
             category: 'library',
             action: 'Select Backdrop',
             label: item.name
         });
     }
-
-    componentDidMount () {
-        xhr({
-            uri: backdropsUrl
-        },(err, resp, body) => {
-            body = JSON.parse(body);
-            this.setState({backdropLibraryContent: body.data});
-        })
-    }
-
     render () {
         return (
             <LibraryComponent
-                data={this.state.backdropLibraryContent}
-                title="Backdrop Library - UltraBear"
+                data={backdropLibraryContent}
+                title="Choose a Backdrop"
                 onItemSelected={this.handleItemSelect}
                 onRequestClose={this.props.onRequestClose}
             />
@@ -62,7 +43,6 @@ class BackdropLibrary extends React.Component {
 }
 
 BackdropLibrary.propTypes = {
-    onNewBackdrop: PropTypes.func,
     onRequestClose: PropTypes.func,
     vm: PropTypes.instanceOf(VM).isRequired
 };

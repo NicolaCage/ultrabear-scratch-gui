@@ -2,13 +2,10 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import VM from 'scratch-vm';
-import xhr from 'xhr';
 
 import analytics from '../lib/analytics';
-// import costumeLibraryContent from '../lib/libraries/costumes.json';
+import costumeLibraryContent from '../lib/libraries/costumes.json';
 import LibraryComponent from '../components/library/library.jsx';
-
-const custumesUrl = "https://assets.ultrabear.com.cn/custumes";
 
 
 class CostumeLibrary extends React.PureComponent {
@@ -17,9 +14,6 @@ class CostumeLibrary extends React.PureComponent {
         bindAll(this, [
             'handleItemSelected'
         ]);
-        this.state = {
-            costumeLibraryContent: []
-        }
     }
     handleItemSelected (item) {
         const vmCostume = {
@@ -29,30 +23,18 @@ class CostumeLibrary extends React.PureComponent {
             bitmapResolution: item.info.length > 2 ? item.info[2] : 1,
             skinId: null
         };
-        this.props.vm.addCostume(item.md5, vmCostume).then(() => {
-            this.props.onNewCostume();
-        });
+        this.props.vm.addCostume(item.md5, vmCostume);
         analytics.event({
             category: 'library',
             action: 'Select Costume',
             label: item.name
         });
     }
-
-    componentDidMount () {
-        xhr({
-            uri: custumesUrl
-        },(err, resp, body) => {
-            body = JSON.parse(body);
-            this.setState({costumeLibraryContent: body.data});
-        })
-    }
-
     render () {
         return (
             <LibraryComponent
-                data={this.state.costumeLibraryContent}
-                title="Costume Library - UltraBear"
+                data={costumeLibraryContent}
+                title="Choose a Costume"
                 onItemSelected={this.handleItemSelected}
                 onRequestClose={this.props.onRequestClose}
             />
@@ -61,7 +43,6 @@ class CostumeLibrary extends React.PureComponent {
 }
 
 CostumeLibrary.propTypes = {
-    onNewCostume: PropTypes.func.isRequired,
     onRequestClose: PropTypes.func,
     vm: PropTypes.instanceOf(VM).isRequired
 };
