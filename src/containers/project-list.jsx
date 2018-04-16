@@ -4,7 +4,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import xhr from 'xhr';
 import md5 from 'md5'
-import jwtDecode from 'jwt-decode';
 
 import ProjectListComponent from '../components/project-list/project-list.jsx';
 import {closeProjectList} from '../reducers/modals';

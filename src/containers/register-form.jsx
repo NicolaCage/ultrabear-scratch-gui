@@ -4,14 +4,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import xhr from 'xhr';
 import md5 from 'md5'
-import jwtDecode from 'jwt-decode';
 
 import RegisterFormComponent from '../components/register-form/register-form.jsx';
 
 import {closeRegisterForm} from '../reducers/modals';
 import {setUser, unsetUser} from '../reducers/user';
 import { AUTH_ROOT } from '../api-config';
-import cookie from 'react-cookies';
 
 class RegisterForm extends React.Component {
     constructor (props) {
@@ -67,29 +65,29 @@ class RegisterForm extends React.Component {
                 "Content-Type": "application/json"
             },
         }, (err, response, body) => {
-            body = JSON.parse(body);
-            if (!err && body.code == 0 && body.data && typeof body.data == "string") {
-                let jwt = body.data;
-                var decoded = jwtDecode(jwt);
-                this.props.setUser({
-                    id: decoded.id,
-                    permission: decoded.permission,
-                    name: decoded.name,
-                    openId: decoded.openId,
-                    unionId: decoded.unionId,
-                    jwt: jwt
-                });
-                cookie.save('userId', decoded.id, { path: '/', maxAge: loginValidSeconds });
-                cookie.save('userName', decoded.name, { path: '/', maxAge: loginValidSeconds });
-                cookie.save('permission', decoded.permission, { path: '/', maxAge: loginValidSeconds });
-                cookie.save('jwt', jwt, { path: '/', maxAge: loginValidSeconds });
-                alert("注册成功");
-                this.props.close();
-            }
-            else {
-                //TODO: show why it failed
-                alert("注册失败");
-            }
+            // body = JSON.parse(body);
+            // if (!err && body.code == 0 && body.data && typeof body.data == "string") {
+            //     let jwt = body.data;
+            //     var decoded = jwtDecode(jwt);
+            //     this.props.setUser({
+            //         id: decoded.id,
+            //         permission: decoded.permission,
+            //         name: decoded.name,
+            //         openId: decoded.openId,
+            //         unionId: decoded.unionId,
+            //         jwt: jwt
+            //     });
+            //     cookie.save('userId', decoded.id, { path: '/', maxAge: loginValidSeconds });
+            //     cookie.save('userName', decoded.name, { path: '/', maxAge: loginValidSeconds });
+            //     cookie.save('permission', decoded.permission, { path: '/', maxAge: loginValidSeconds });
+            //     cookie.save('jwt', jwt, { path: '/', maxAge: loginValidSeconds });
+            //     alert("注册成功");
+            //     this.props.close();
+            // }
+            // else {
+            //     //TODO: show why it failed
+            //     alert("注册失败");
+            // }
         });
     }
 

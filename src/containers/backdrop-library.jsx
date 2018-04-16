@@ -4,9 +4,12 @@ import React from 'react';
 import VM from 'scratch-vm';
 
 import analytics from '../lib/analytics';
-import backdropLibraryContent from '../lib/libraries/backdrops.json';
+// import backdropLibraryContent from '../lib/libraries/backdrops.json';
 import LibraryComponent from '../components/library/library.jsx';
 
+import xhr from 'xhr';
+
+const backdropsUrl = "https://assets.ultrabear.com.cn/backdrops";
 
 class BackdropLibrary extends React.Component {
     constructor (props) {
@@ -14,6 +17,9 @@ class BackdropLibrary extends React.Component {
         bindAll(this, [
             'handleItemSelect'
         ]);
+        this.state = {
+            backdropLibraryContent: []
+        }
     }
     handleItemSelect (item) {
         const vmBackdrop = {
@@ -30,11 +36,20 @@ class BackdropLibrary extends React.Component {
             label: item.name
         });
     }
+    componentDidMount () {
+        xhr({
+            uri: custumesUrl
+        },(err, resp, body) => {
+            body = JSON.parse(body);
+            this.setState({costumeLibraryContent: body.data});
+        })
+    }
+
     render () {
         return (
             <LibraryComponent
-                data={backdropLibraryContent}
-                title="Choose a Backdrop"
+                data={this.state.costumeLibraryContent}
+                title="Costume Library - UltraBear"
                 onItemSelected={this.handleItemSelect}
                 onRequestClose={this.props.onRequestClose}
             />

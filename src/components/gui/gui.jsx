@@ -29,6 +29,10 @@ import codeIcon from './icon--code.svg';
 import costumesIcon from './icon--costumes.svg';
 import soundsIcon from './icon--sounds.svg';
 
+import LoginForm from '../../containers/login-form.jsx';
+import RegisterForm from '../../containers/register-form.jsx';
+import ProjectList from '../../containers/project-list.jsx';
+
 const messages = defineMessages({
     addExtension: {
         id: 'gui.gui.addExtension',
@@ -57,6 +61,9 @@ const GUIComponent = props => {
         onActivateSoundsTab,
         onActivateTab,
         previewInfoVisible,
+        loginFormVisible,
+        registerFormVisible,
+        projectListVisible,
         soundsTabVisible,
         vm,
         ...componentProps
@@ -99,12 +106,46 @@ const GUIComponent = props => {
             {feedbackFormVisible ? (
                 <FeedbackForm />
             ) : null}
+            {loginFormVisible ? (
+                <LoginForm />
+            ) : null}
+            {registerFormVisible ? (
+                <RegisterForm />
+            ) : null}
+            {projectListVisible ? (
+                <ProjectList />
+            ) : null}
             {isRendererSupported ? null : (
                 <WebGlModal />
             )}
             <MenuBar />
             <Box className={styles.bodyWrapper}>
                 <Box className={styles.flexWrapper}>
+                    <Box className={styles.stageAndTargetWrapper}>
+                        <Box className={styles.stageMenuWrapper}>
+                            <StageHeader vm={vm} />
+                        </Box>
+                        <Box className={styles.stageWrapper}>
+                            {/* eslint-disable arrow-body-style */}
+                            <MediaQuery minWidth={layout.fullSizeMinWidth}>{isFullSize => {
+                                return isRendererSupported ? (
+                                    <Stage
+                                        height={isFullSize ? layout.fullStageHeight : layout.smallerStageHeight}
+                                        shrink={0}
+                                        vm={vm}
+                                        width={isFullSize ? layout.fullStageWidth : layout.smallerStageWidth}
+                                    />
+                                ) : null;
+                            }}</MediaQuery>
+                            {/* eslint-enable arrow-body-style */}
+                        </Box>
+                        <Box className={styles.targetWrapper}>
+                            <TargetPane
+                                vm={vm}
+                            />
+                        </Box>
+                    </Box>
+
                     <Box className={styles.editorWrapper}>
                         <Tabs
                             className={tabClassNames.tabs}
@@ -189,30 +230,8 @@ const GUIComponent = props => {
                         </Tabs>
                     </Box>
 
-                    <Box className={styles.stageAndTargetWrapper}>
-                        <Box className={styles.stageMenuWrapper}>
-                            <StageHeader vm={vm} />
-                        </Box>
-                        <Box className={styles.stageWrapper}>
-                            {/* eslint-disable arrow-body-style */}
-                            <MediaQuery minWidth={layout.fullSizeMinWidth}>{isFullSize => {
-                                return isRendererSupported ? (
-                                    <Stage
-                                        height={isFullSize ? layout.fullStageHeight : layout.smallerStageHeight}
-                                        shrink={0}
-                                        vm={vm}
-                                        width={isFullSize ? layout.fullStageWidth : layout.smallerStageWidth}
-                                    />
-                                ) : null;
-                            }}</MediaQuery>
-                            {/* eslint-enable arrow-body-style */}
-                        </Box>
-                        <Box className={styles.targetWrapper}>
-                            <TargetPane
-                                vm={vm}
-                            />
-                        </Box>
-                    </Box>
+                    
+
                 </Box>
             </Box>
         </Box>
@@ -234,6 +253,9 @@ GUIComponent.propTypes = {
     onExtensionButtonClick: PropTypes.func,
     onTabSelect: PropTypes.func,
     previewInfoVisible: PropTypes.bool,
+    loginFormVisible: PropTypes.bool,
+    registerFormVisible: PropTypes.bool,
+    projectListVisible: PropTypes.bool,
     soundsTabVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired
 };

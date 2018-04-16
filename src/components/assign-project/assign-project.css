@@ -47,12 +47,3 @@ $content-max-height: 400px;
 .listItem:hover { 
     background-color: hsla(215, 100%, 65%, .9); 
 }
-.body {
-    /* Need to repeat dimensions here to allow iframe scrolling for iOS */
-    width: $content-width;
-    background: $ui-pane-gray;
-    max-height: $content-max-height;
-    /* These properties needed to allow iframe scrolling for iOS */
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-}

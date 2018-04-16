@@ -10,6 +10,9 @@ import LibraryComponent from '../components/library/library.jsx';
 import soundIcon from '../components/asset-panel/icon--sound.svg';
 
 import soundLibraryContent from '../lib/libraries/sounds.json';
+import xhr from 'xhr';
+
+const soundsUrl = "https://assets.ultrabear.com.cn/sounds";
 
 class SoundLibrary extends React.PureComponent {
     constructor (props) {
@@ -19,10 +22,19 @@ class SoundLibrary extends React.PureComponent {
             'handleItemMouseEnter',
             'handleItemMouseLeave'
         ]);
+        this.state = {
+            soundLibraryContent: []
+        }
     }
     componentDidMount () {
         this.audioEngine = new AudioEngine();
         this.player = this.audioEngine.createPlayer();
+        xhr({
+            uri: soundsUrl
+        },(err, resp, body) => {
+            body = JSON.parse(body);
+            this.setState({soundLibraryContent: body.data});
+        })
     }
     componentWillUnmount () {
         this.player.stopAllSounds();
@@ -68,7 +80,7 @@ class SoundLibrary extends React.PureComponent {
     }
     render () {
         // @todo need to use this hack to avoid library using md5 for image
-        const soundLibraryThumbnailData = soundLibraryContent.map(sound => {
+        const soundLibraryThumbnailData = this.state.soundLibraryContent.map(sound => {
             const {
                 md5,
                 ...otherData
@@ -83,7 +95,7 @@ class SoundLibrary extends React.PureComponent {
         return (
             <LibraryComponent
                 data={soundLibraryThumbnailData}
-                title="Choose a Sound"
+                title="Sound Library - UltraBear"
                 onItemMouseEnter={this.handleItemMouseEnter}
                 onItemMouseLeave={this.handleItemMouseLeave}
                 onItemSelected={this.handleItemSelected}

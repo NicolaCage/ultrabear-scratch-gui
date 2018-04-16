@@ -23,6 +23,8 @@ import {
     editMenuOpen
 } from '../../reducers/menus';
 
+import {openLoginForm} from '../../reducers/modals';
+
 import styles from './menu-bar.css';
 
 import mystuffIcon from './icon--mystuff.png';
@@ -95,8 +97,9 @@ MenuBarMenu.propTypes = {
     place: PropTypes.oneOf(['left', 'right'])
 };
 
-const MenuBar = props => (
-    <Box className={styles.menuBar}>
+const MenuBar = props => {
+    let validUser = !!props.user && !!props.user.id && !!props.user.unionid;
+    return <Box className={styles.menuBar}>
         <div className={styles.mainMenu}>
             <div className={styles.fileGroup}>
                 <div className={classNames(styles.menuBarItem)}>
@@ -130,12 +133,12 @@ const MenuBar = props => (
                             <MenuItem>New</MenuItem>
                         </MenuItemTooltip>
                         <MenuSection>
-                            <MenuItemTooltip id="save">
-                                <MenuItem>Save now</MenuItem>
-                            </MenuItemTooltip>
-                            <MenuItemTooltip id="copy">
-                                <MenuItem>Save as a copy</MenuItem>
-                            </MenuItemTooltip>
+                        <MenuItemTooltip id="save">
+                            <MenuItem>Save Cloud</MenuItem>
+                        </MenuItemTooltip>
+                        <MenuItemTooltip id="copy">
+                            <MenuItem>Load Cloud</MenuItem>
+                        </MenuItemTooltip>
                         </MenuSection>
                         <MenuSection>
                             <ProjectLoader>{(renderFileInput, loadProject, loadProps) => (
@@ -193,7 +196,7 @@ const MenuBar = props => (
                     />
                 </MenuBarItemTooltip>
             </div>
-            <div className={classNames(styles.menuBarItem)}>
+            {/* <div className={classNames(styles.menuBarItem)}>
                 <MenuBarItemTooltip id="share-button">
                     <Button className={classNames(styles.shareButton)}>
                         <FormattedMessage
@@ -203,8 +206,8 @@ const MenuBar = props => (
                         />
                     </Button>
                 </MenuBarItemTooltip>
-            </div>
-            <div className={classNames(styles.menuBarItem, styles.communityButtonWrapper)}>
+            </div> */}
+            {/* <div className={classNames(styles.menuBarItem, styles.communityButtonWrapper)}>
                 <MenuBarItemTooltip id="community-button">
                     <Button
                         className={classNames(styles.communityButton)}
@@ -218,20 +221,25 @@ const MenuBar = props => (
                         />
                     </Button>
                 </MenuBarItemTooltip>
-            </div>
+            </div> */}
         </div>
         <div className={classNames(styles.menuBarItem, styles.feedbackButtonWrapper)}>
             <Button
                 className={styles.feedbackButton}
                 iconSrc={feedbackIcon}
-                onClick={props.onGiveFeedback}
+                onClick={props.onLoginClicked}
             >
                 <FormattedMessage
-                    defaultMessage="Give Feedback"
-                    description="Label for feedback form modal button"
+                    defaultMessage="Login"
+                    description="Label for login form modal button"
                     id="gui.menuBar.giveFeedback"
                 />
             </Button>
+            {validUser ? (
+                <span className={styles.feedbackText}>
+                    {"Welcome - " + props.user.name}
+                </span>
+            ) : null}
         </div>
         <div className={styles.accountInfoWrapper}>
             <MenuBarItemTooltip id="mystuff">
@@ -272,7 +280,7 @@ const MenuBar = props => (
             </MenuBarItemTooltip>
         </div>
     </Box>
-);
+};
 
 MenuBar.propTypes = {
     editMenuOpen: PropTypes.bool,
@@ -281,12 +289,14 @@ MenuBar.propTypes = {
     onClickFile: PropTypes.func,
     onGiveFeedback: PropTypes.func.isRequired,
     onRequestCloseEdit: PropTypes.func,
-    onRequestCloseFile: PropTypes.func
+    onRequestCloseFile: PropTypes.func,
+    onLoginClicked: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
     fileMenuOpen: fileMenuOpen(state),
-    editMenuOpen: editMenuOpen(state)
+    editMenuOpen: editMenuOpen(state),
+    user: state.user,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -294,7 +304,8 @@ const mapDispatchToProps = dispatch => ({
     onClickFile: () => dispatch(openFileMenu()),
     onRequestCloseFile: () => dispatch(closeFileMenu()),
     onClickEdit: () => dispatch(openEditMenu()),
-    onRequestCloseEdit: () => dispatch(closeEditMenu())
+    onRequestCloseEdit: () => dispatch(closeEditMenu()),
+    onLoginClicked: () => { dispatch(openLoginForm())},
 });
 
 export default connect(

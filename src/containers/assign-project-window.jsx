@@ -8,8 +8,6 @@ import jwtDecode from 'jwt-decode';
 import {setProject} from '../reducers/project';
 import AssignProjectComponent from '../components/assign-project/assign-project.jsx';
 import { ASSETS_ROOT } from '../api-config';
-import cookie from 'react-cookies';
-
 
 class AssginProjectWindow extends React.Component {
     constructor (props) {
@@ -37,7 +35,7 @@ class AssginProjectWindow extends React.Component {
             }),
             headers: {
                 "Content-Type": "application/json",
-                "jwt": cookie.load('jwt')
+                "jwt": this.props.user.jwt
             }
         }, (err, response, body) => {
             if (!err && body.code == 0) {

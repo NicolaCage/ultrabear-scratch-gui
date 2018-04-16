@@ -90,11 +90,11 @@
     "rimraf": "^2.6.1",
     "scratch-audio": "0.1.0-prerelease.1516198804",
     "scratch-blocks": "0.1.0-prerelease.1523542868",
-    "scratch-l10n": "2.0.20180108132626",
+    "scratch-l10n": "Yicheng-Tech/ultrabear-scratch-l10n#master",
     "scratch-paint": "0.2.0-prerelease.20180410152401",
     "scratch-render": "0.1.0-prerelease.1523453612",
     "scratch-storage": "0.4.0",
-    "scratch-vm": "0.1.0-prerelease.1523642820",
+    "scratch-vm": "Yicheng-Tech/ultrabear-scratch-vm#master",
     "selenium-webdriver": "3.6.0",
     "startaudiocontext": "1.2.1",
     "style-loader": "^0.20.0",
@@ -104,7 +104,8 @@
     "web-audio-test-api": "^0.5.2",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.7",
-    "xhr": "2.4.1"
+    "xhr": "2.4.1",
+    "md5": "2.2.1"
   },
   "jest": {
     "setupFiles": [

@@ -4,13 +4,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import xhr from 'xhr';
 import md5 from 'md5'
-import jwtDecode from 'jwt-decode';
 
 import LoginFormComponent from '../components/login-form/login-form.jsx';
 
 import {setUser} from '../reducers/user';
 import {closeLoginForm} from '../reducers/modals';
-import cookie from 'react-cookies';
 import { AUTH_ROOT } from '../api-config';
 
 const loginValidSeconds = 60*60;
@@ -54,39 +52,39 @@ class LoginForm extends React.Component {
                 "Content-Type": "application/json"
             },
         }, (err, response, body) => {
-            body = JSON.parse(body);
-            if (!err && body.data && body.code == 0) {
-                if (body.msg.includes("wechat")) {
-                    // Not set up wechat yet
-                    alert("还未绑定微信，请扫码绑定");
-                    this.handleScan();
-                }
-                else {
-                    let jwt = body.data;
-                    var decoded = jwtDecode(jwt);
-                    this.props.setUser({
-                        id: decoded.id,
-                        permission: decoded.permission,
-                        name: decoded.name,
-                        openId: decoded.openId,
-                        unionId: decoded.unionId,
-                        jwt: jwt
-                    });
-                    cookie.save('userId', decoded.id, { path: '/', maxAge: loginValidSeconds });
-                    cookie.save('userName', decoded.name, { path: '/', maxAge: loginValidSeconds });
-                    cookie.save('permission', decoded.permission, { path: '/', maxAge: loginValidSeconds });
-                    cookie.save('jwt', jwt, { path: '/', maxAge: loginValidSeconds });
-                    this.props.close();
-                    console.log("登录成功");
-                }
-            }
-            else {
-                switch (body.code) {
-                    case 1: alert("用户名或密码错误"); break;
-                    case 2: alert("网络错误"); break;
-                    default: alert("登录失败");
-                }
-            }
+            // body = JSON.parse(body);
+            // if (!err && body.data && body.code == 0) {
+            //     if (body.msg.includes("wechat")) {
+            //         // Not set up wechat yet
+            //         alert("还未绑定微信，请扫码绑定");
+            //         this.handleScan();
+            //     }
+            //     else {
+            //         let jwt = body.data;
+            //         var decoded = jwtDecode(jwt);
+            //         this.props.setUser({
+            //             id: decoded.id,
+            //             permission: decoded.permission,
+            //             name: decoded.name,
+            //             openId: decoded.openId,
+            //             unionId: decoded.unionId,
+            //             jwt: jwt
+            //         });
+            //         cookie.save('userId', decoded.id, { path: '/', maxAge: loginValidSeconds });
+            //         cookie.save('userName', decoded.name, { path: '/', maxAge: loginValidSeconds });
+            //         cookie.save('permission', decoded.permission, { path: '/', maxAge: loginValidSeconds });
+            //         cookie.save('jwt', jwt, { path: '/', maxAge: loginValidSeconds });
+            //         this.props.close();
+            //         console.log("登录成功");
+            //     }
+            // }
+            // else {
+            //     switch (body.code) {
+            //         case 1: alert("用户名或密码错误"); break;
+            //         case 2: alert("网络错误"); break;
+            //         default: alert("登录失败");
+            //     }
+            // }
         });
     }
 

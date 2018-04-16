@@ -1,11 +1,23 @@
-const initialState = {
-    id: null,
-    permission: null,
-    name: null,
-    openId: null,
-    unionId: null,
-    jwt: null,
-};
+//判断本地有缓存  user
+let initialState =  {}
+try { 
+    const serializedState = localStorage.getItem('user');
+    if (serializedState === null) {
+        initialState= {
+            jwt: '',
+            name: ''
+        };
+    } else {
+        initialState= JSON.parse(serializedState);
+    }
+} catch (err) {
+    // ... 错误处理
+    initialState= {
+        jwt: '',
+        name: ''
+    };
+}
+
 
 const SETUP_USER = 'scratch-gui/user/SETUP_USER';
 const UNSET_USER = 'scratch-gui/user/UNSET_USER';

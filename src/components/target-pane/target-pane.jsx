@@ -42,26 +42,6 @@ const TargetPane = ({
         className={styles.targetPane}
         {...componentProps}
     >
-
-        <SpriteSelectorComponent
-            editingTarget={editingTarget}
-            hoveredTarget={hoveredTarget}
-            raised={raiseSprites}
-            selectedId={editingTarget}
-            sprites={sprites}
-            onChangeSpriteDirection={onChangeSpriteDirection}
-            onChangeSpriteName={onChangeSpriteName}
-            onChangeSpriteSize={onChangeSpriteSize}
-            onChangeSpriteVisibility={onChangeSpriteVisibility}
-            onChangeSpriteX={onChangeSpriteX}
-            onChangeSpriteY={onChangeSpriteY}
-            onDeleteSprite={onDeleteSprite}
-            onDuplicateSprite={onDuplicateSprite}
-            onNewSpriteClick={onNewSpriteClick}
-            onPaintSpriteClick={onPaintSpriteClick}
-            onSelectSprite={onSelectSprite}
-            onSurpriseSpriteClick={onSurpriseSpriteClick}
-        />
         <div className={styles.stageSelectorWrapper}>
             {stage.id && <StageSelector
                 assetId={
@@ -82,6 +62,25 @@ const TargetPane = ({
                 ) : null}
             </div>
         </div>
+        <SpriteSelectorComponent
+            editingTarget={editingTarget}
+            hoveredTarget={hoveredTarget}
+            raised={raiseSprites}
+            selectedId={editingTarget}
+            sprites={sprites}
+            onChangeSpriteDirection={onChangeSpriteDirection}
+            onChangeSpriteName={onChangeSpriteName}
+            onChangeSpriteSize={onChangeSpriteSize}
+            onChangeSpriteVisibility={onChangeSpriteVisibility}
+            onChangeSpriteX={onChangeSpriteX}
+            onChangeSpriteY={onChangeSpriteY}
+            onDeleteSprite={onDeleteSprite}
+            onDuplicateSprite={onDuplicateSprite}
+            onNewSpriteClick={onNewSpriteClick}
+            onPaintSpriteClick={onPaintSpriteClick}
+            onSelectSprite={onSelectSprite}
+            onSurpriseSpriteClick={onSurpriseSpriteClick}
+        />
     </div>
 );
 

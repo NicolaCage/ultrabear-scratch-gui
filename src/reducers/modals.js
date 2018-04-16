@@ -7,6 +7,9 @@ const MODAL_BACKDROP_LIBRARY = 'backdropLibrary';
 const MODAL_COSTUME_LIBRARY = 'costumeLibrary';
 const MODAL_EXTENSION_LIBRARY = 'extensionLibrary';
 const MODAL_FEEDBACK_FORM = 'feedbackForm';
+const MODAL_LOGIN_FORM = 'loginForm';
+const MODAL_REGISTER_FORM = 'registerForm';
+const MODAL_PROJECT_LIST = 'projectList';
 const MODAL_IMPORT_INFO = 'importInfo';
 const MODAL_LOADING_PROJECT = 'loadingProject';
 const MODAL_PREVIEW_INFO = 'previewInfo';
@@ -20,9 +23,12 @@ const initialState = {
     [MODAL_COSTUME_LIBRARY]: false,
     [MODAL_EXTENSION_LIBRARY]: false,
     [MODAL_FEEDBACK_FORM]: false,
+    [MODAL_LOGIN_FORM]: false,
+    [MODAL_REGISTER_FORM]: false,
+    [MODAL_PROJECT_LIST]: false,
     [MODAL_IMPORT_INFO]: false,
     [MODAL_LOADING_PROJECT]: false,
-    [MODAL_PREVIEW_INFO]: true,
+    [MODAL_PREVIEW_INFO]: false,
     [MODAL_SOUND_LIBRARY]: false,
     [MODAL_SPRITE_LIBRARY]: false,
     [MODAL_SOUND_RECORDER]: false
@@ -71,6 +77,18 @@ const openFeedbackForm = function () {
     analytics.pageview('/modals/feedback');
     return openModal(MODAL_FEEDBACK_FORM);
 };
+const openLoginForm = function () {
+    analytics.pageview('/modals/login');
+    return openModal(MODAL_LOGIN_FORM);
+};
+const openRegisterForm = function () {
+    analytics.pageview('/modals/register');
+    return openModal(MODAL_REGISTER_FORM);
+};
+const openProjectList = function () {
+    analytics.pageview('/modals/projectlist');
+    return openModal(MODAL_PROJECT_LIST);
+};
 const openImportInfo = function () {
     analytics.pageview('modals/import');
     return openModal(MODAL_IMPORT_INFO);
@@ -107,6 +125,15 @@ const closeExtensionLibrary = function () {
 const closeFeedbackForm = function () {
     return closeModal(MODAL_FEEDBACK_FORM);
 };
+const closeLoginForm = function () {
+    return closeModal(MODAL_LOGIN_FORM);
+};
+const closeProjectList = function () {
+    return closeModal(MODAL_PROJECT_LIST);
+};
+const closeRegisterForm = function () {
+    return closeModal(MODAL_REGISTER_FORM);
+};
 const closeImportInfo = function () {
     return closeModal(MODAL_IMPORT_INFO);
 };
@@ -131,9 +158,12 @@ export {
     openCostumeLibrary,
     openExtensionLibrary,
     openFeedbackForm,
+    openLoginForm,
+    closeRegisterForm,
     openImportInfo,
     openLoadingProject,
     openPreviewInfo,
+    openProjectList,
     openSoundLibrary,
     openSpriteLibrary,
     openSoundRecorder,
@@ -141,9 +171,11 @@ export {
     closeCostumeLibrary,
     closeExtensionLibrary,
     closeFeedbackForm,
+    closeLoginForm,
     closeImportInfo,
     closeLoadingProject,
     closePreviewInfo,
+    closeProjectList,
     closeSpriteLibrary,
     closeSoundLibrary,
     closeSoundRecorder
