@@ -124,20 +124,20 @@ const MenuBar = props => {
                     })}
                     onMouseUp={props.onClickFile}
                 >
-                    <div className={classNames(styles.fileMenu)}>File</div>
+                    <div className={classNames(styles.fileMenu)}>文件</div>
                     <MenuBarMenu
                         open={props.fileMenuOpen}
                         onRequestClose={props.onRequestCloseFile}
                     >
                         <MenuItemTooltip id="new">
-                            <MenuItem>New</MenuItem>
+                            <MenuItem>新建项目</MenuItem>
                         </MenuItemTooltip>
                         <MenuSection>
                         <MenuItemTooltip id="save">
-                            <MenuItem>Save Cloud</MenuItem>
+                            <MenuItem>保存到云端</MenuItem>
                         </MenuItemTooltip>
                         <MenuItemTooltip id="copy">
-                            <MenuItem>Load Cloud</MenuItem>
+                            <MenuItem>从云端导入</MenuItem>
                         </MenuItemTooltip>
                         </MenuSection>
                         <MenuSection>
@@ -146,7 +146,7 @@ const MenuBar = props => {
                                     onClick={loadProject}
                                     {...loadProps}
                                 >
-                                    Upload from your computer
+                                    从本地上传
                                     {renderFileInput()}
                                 </MenuItem>
                             )}</ProjectLoader>
@@ -155,7 +155,7 @@ const MenuBar = props => {
                                     onClick={saveProject}
                                     {...saveProps}
                                 >
-                                    Download to your computer
+                                    下载到本地
                                 </MenuItem>
                             )}</ProjectSaver>
                         </MenuSection>
@@ -167,7 +167,7 @@ const MenuBar = props => {
                     })}
                     onMouseUp={props.onClickEdit}
                 >
-                    <div className={classNames(styles.editMenu)}>Edit</div>
+                    <div className={classNames(styles.editMenu)}>编辑</div>
                     <MenuBarMenu
                         open={props.editMenuOpen}
                         onRequestClose={props.onRequestCloseEdit}
@@ -187,7 +187,7 @@ const MenuBar = props => {
                 </div>
             </div>
             <div className={classNames(styles.divider)} />
-            <div className={classNames(styles.menuBarItem)}>
+            {/* <div className={classNames(styles.menuBarItem)}>
                 <MenuBarItemTooltip id="title-field">
                     <input
                         disabled
@@ -195,7 +195,7 @@ const MenuBar = props => {
                         placeholder="Untitled-1"
                     />
                 </MenuBarItemTooltip>
-            </div>
+            </div> */}
             {/* <div className={classNames(styles.menuBarItem)}>
                 <MenuBarItemTooltip id="share-button">
                     <Button className={classNames(styles.shareButton)}>
@@ -223,26 +223,26 @@ const MenuBar = props => {
                 </MenuBarItemTooltip>
             </div> */}
         </div>
-        <div className={classNames(styles.menuBarItem, styles.feedbackButtonWrapper)}>
-            <Button
-                className={styles.feedbackButton}
-                iconSrc={feedbackIcon}
-                onClick={props.onLoginClicked}
-            >
-                <FormattedMessage
-                    defaultMessage="Login"
-                    description="Label for login form modal button"
-                    id="gui.menuBar.giveFeedback"
-                />
-            </Button>
-            {validUser ? (
-                <span className={styles.feedbackText}>
-                    {"Welcome - " + props.user.name}
-                </span>
-            ) : null}
-        </div>
         <div className={styles.accountInfoWrapper}>
-            <MenuBarItemTooltip id="mystuff">
+            <div className={classNames(styles.menuBarItem, styles.feedbackButtonWrapper)}>
+                <Button
+                    className={styles.feedbackButton}
+                    iconSrc={profileIcon}
+                    onClick={props.onLoginClicked}
+                >
+                    <FormattedMessage
+                        defaultMessage="登录"
+                        description="Label for login form modal button"
+                        id="gui.menuBar.giveFeedback"
+                    />
+                </Button>
+                {validUser ? (
+                    <span className={styles.feedbackText}>
+                        {"Welcome - " + props.user.name}
+                    </span>
+                ) : null}
+            </div>
+            {/* <MenuBarItemTooltip id="mystuff">
                 <div
                     className={classNames(
                         styles.menuBarItem,
@@ -255,8 +255,8 @@ const MenuBar = props => {
                         src={mystuffIcon}
                     />
                 </div>
-            </MenuBarItemTooltip>
-            <MenuBarItemTooltip
+            </MenuBarItemTooltip> */}
+            {/* <MenuBarItemTooltip
                 id="account-nav"
                 place="left"
             >
@@ -277,7 +277,7 @@ const MenuBar = props => {
                         src={dropdownCaret}
                     />
                 </div>
-            </MenuBarItemTooltip>
+            </MenuBarItemTooltip> */}
         </div>
     </Box>
 };
