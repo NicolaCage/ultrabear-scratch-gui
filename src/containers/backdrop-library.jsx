@@ -8,8 +8,8 @@ import analytics from '../lib/analytics';
 import LibraryComponent from '../components/library/library.jsx';
 
 import xhr from 'xhr';
-
-const backdropsUrl = "https://assets.ultrabear.com.cn/backdrops";
+import { ASSETS_ROOT } from '../api-config';
+const backdropsUrl = `${ASSETS_ROOT}/backdrops`;
 
 class BackdropLibrary extends React.Component {
     constructor (props) {

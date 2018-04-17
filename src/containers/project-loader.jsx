@@ -67,7 +67,7 @@ class ProjectLoader extends React.Component {
     renderFileInput () {
         return (
             <input
-                accept=".sb2,.sb3"
+                accept=".sb2,.sb3,.json"
                 ref={this.setFileInput}
                 style={{display: 'none'}}
                 type="file"

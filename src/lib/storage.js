@@ -1,10 +1,11 @@
 import ScratchStorage from 'scratch-storage';
 
 import defaultProjectAssets from './default-project';
+import { ASSETS_ROOT } from '../api-config';
 
 const PROJECT_SERVER = 'https://cdn.projects.scratch.mit.edu';
 // const ASSET_SERVER = 'https://cdn.assets.scratch.mit.edu';
-const ASSET_SERVER = 'https://assets.ultrabear.com.cn/assets';
+const ASSET_SERVER = ASSETS_ROOT + '/assets';
 
 /**
  * Wrapper for ScratchStorage which adds default web sources.

@@ -6,7 +6,7 @@ import LibraryItem from '../library-item/library-item.jsx';
 import ModalComponent from '../modal/modal.jsx';
 
 import styles from './library.css';
-
+import { ASSETS_ROOT } from '../../api-config';
 class LibraryComponent extends React.Component {
     constructor (props) {
         super(props);
@@ -63,7 +63,7 @@ class LibraryComponent extends React.Component {
                 <div className={styles.libraryScrollGrid}>
                     {this.getFilteredData().map((dataItem, index) => {
                         const scratchURL = dataItem.md5 ?
-                            `https://assets.ultrabear.com.cn/assets/${dataItem.md5}`:
+                            `${ASSETS_ROOT}/assets/${dataItem.md5}`:
                             dataItem.rawURL;
                         return (
                             <LibraryItem

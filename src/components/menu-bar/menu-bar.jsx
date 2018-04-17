@@ -34,6 +34,8 @@ import communityIcon from './icon--see-community.svg';
 import dropdownCaret from '../language-selector/dropdown-caret.svg';
 import scratchLogo from './scratch-logo.svg';
 
+import SaveCloudButton from '../../containers/save-cloud-button.jsx';
+
 const MenuBarItemTooltip = ({
     children,
     className,
@@ -98,7 +100,6 @@ MenuBarMenu.propTypes = {
 };
 
 const MenuBar = props => {
-    debugger
     let validUser = !!props.user && !!props.user.id && !!props.user.unionid;
 
     return <Box className={styles.menuBar}>
@@ -135,12 +136,8 @@ const MenuBar = props => {
                             <MenuItem>新建项目</MenuItem>
                         </MenuItemTooltip>
                         <MenuSection>
-                        <MenuItemTooltip id="save">
-                            <MenuItem>保存到云端</MenuItem>
-                        </MenuItemTooltip>
-                        <MenuItemTooltip id="copy">
+                            <SaveCloudButton className={styles.menuItem} />
                             <MenuItem>从云端导入</MenuItem>
-                        </MenuItemTooltip>
                         </MenuSection>
                         <MenuSection>
                             <ProjectLoader>{(renderFileInput, loadProject, loadProps) => (
