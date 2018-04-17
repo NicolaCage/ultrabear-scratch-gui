@@ -4,7 +4,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import xhr from 'xhr';
 import md5 from 'md5'
-import jwtDecode from 'jwt-decode';
 import {setProject} from '../reducers/project';
 import AssignProjectComponent from '../components/assign-project/assign-project.jsx';
 import { ASSETS_ROOT } from '../api-config';

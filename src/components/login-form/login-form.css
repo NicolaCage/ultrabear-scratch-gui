@@ -34,6 +34,7 @@ $content-height: 200px;
     width: 300px;
     color: $text-primary;
     overflow: hidden;
+    background: #ffffff;
 }
 
 .submitbutton{
@@ -58,4 +59,20 @@ $content-height: 200px;
     display: block;
     cursor: pointer;
     margin-top: 20px;
+}
+
+.loginOption {
+    margin-top: 10px;
+    display: block;
+}
+
+.loginButton{
+    margin-bottom: 20px;
+    display: block;
+    font-size: 16px;
+}
+
+.optionButton{
+    margin-top: 20px;
+    display: block;
 }

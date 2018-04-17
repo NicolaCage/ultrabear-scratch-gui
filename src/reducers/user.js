@@ -38,14 +38,7 @@ const reducer = function (state, action) {
 const setUser = function (userInfo) {
     return {
         type: SETUP_USER,
-        user: {
-            id: userInfo.id,
-            permission: userInfo.permission,
-            name: userInfo.name,
-            openId: userInfo.openId,
-            unionId: userInfo.unionId,
-            jwt: userInfo.jwt
-        }
+        user: userInfo
     };
 };
 

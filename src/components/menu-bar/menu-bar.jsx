@@ -98,7 +98,9 @@ MenuBarMenu.propTypes = {
 };
 
 const MenuBar = props => {
+    debugger
     let validUser = !!props.user && !!props.user.id && !!props.user.unionid;
+
     return <Box className={styles.menuBar}>
         <div className={styles.mainMenu}>
             <div className={styles.fileGroup}>
