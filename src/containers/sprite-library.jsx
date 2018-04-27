@@ -71,7 +71,7 @@ class SpriteLibrary extends React.PureComponent {
         return (
             <LibraryComponent
                 data={this.state.sprites}
-                title="Choose a Sprite"
+                title="选择角色"
                 onItemMouseEnter={this.handleMouseEnter}
                 onItemMouseLeave={this.handleMouseLeave}
                 onItemSelected={this.handleItemSelect}

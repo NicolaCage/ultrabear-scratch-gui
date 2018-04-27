@@ -51,6 +51,6 @@ FilterComponent.propTypes = {
     placeholderText: PropTypes.string
 };
 FilterComponent.defaultProps = {
-    placeholderText: 'what are you looking for?'
+    placeholderText: '你在找什么?'
 };
 export default FilterComponent;

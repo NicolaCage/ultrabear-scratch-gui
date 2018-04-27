@@ -35,7 +35,7 @@ class CostumeLibrary extends React.PureComponent {
         return (
             <LibraryComponent
                 data={costumeLibraryContent}
-                title="Choose a Costume"
+                title="选择造型"
                 onItemSelected={this.handleItemSelected}
                 onRequestClose={this.props.onRequestClose}
             />

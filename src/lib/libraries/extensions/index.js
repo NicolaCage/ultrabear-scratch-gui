@@ -9,17 +9,17 @@ import boostImage from './boost.png';
 
 export default [
     {
-        name: 'Music',
+        name: '音乐',
         extensionURL: 'music',
         iconURL: musicImage,
-        description: 'Play instruments and drums.',
+        description: '演奏乐器和鼓',
         featured: true
     },
     {
-        name: 'Pen',
+        name: '笔',
         extensionURL: 'pen',
         iconURL: penImage,
-        description: 'Draw with your sprites.',
+        description: '画你的精灵',
         featured: true
     },
     {
