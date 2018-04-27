@@ -6,6 +6,7 @@ import VM from 'scratch-vm';
 import axios from 'axios';
 import md5 from 'md5';
 import ButtonComponent from '../components/button/button.jsx';
+import styles from '../components/button/button.css';
 import {setProject} from '../reducers/project';
 import { ASSETS_ROOT } from '../api-config';
 
@@ -233,12 +234,12 @@ class SaveCloudButton extends React.Component {
             ...props
         } = this.props;
         return (
-            <ButtonComponent
+            <section
                 onClick={this.handleClick}
                 {...props}
             >
                 保存到云端
-            </ButtonComponent>
+            </section>
         );
     }
 }

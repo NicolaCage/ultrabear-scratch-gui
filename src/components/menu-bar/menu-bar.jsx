@@ -141,10 +141,14 @@ const MenuBar = props => {
                         <MenuItemTooltip id="new">
                             <MenuItem>新建项目</MenuItem>
                         </MenuItemTooltip>
-                        <MenuSection>
-                            <SaveCloudButton className={styles.menuItem} />
-                            <MenuItem>从云端导入</MenuItem>
-                        </MenuSection>
+                        {validUser ? (
+                            <MenuSection>
+                                <MenuItem>
+                                    <SaveCloudButton className={styles.menuItem} />
+                                </MenuItem>
+                                <MenuItem>从云端导入</MenuItem>
+                            </MenuSection>
+                        ) : null}
                         <MenuSection>
                             <ProjectLoader>{(renderFileInput, loadProject, loadProps) => (
                                 <MenuItem
