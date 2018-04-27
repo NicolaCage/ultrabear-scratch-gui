@@ -15,9 +15,14 @@ import ProjectSaver from '../../containers/project-saver.jsx';
 
 import {openFeedbackForm} from '../../reducers/modals';
 import {
+    fileMenuOpen,
     openFileMenu,
     closeFileMenu,
-    fileMenuOpen,
+
+    teacherMenuOpen,
+    openTeacherMenu,
+    closeTeacherMenu,
+    
     openEditMenu,
     closeEditMenu,
     editMenuOpen
@@ -101,6 +106,7 @@ MenuBarMenu.propTypes = {
 
 const MenuBar = props => {
     let validUser = !!props.user && !!props.user.id && !!props.user.unionid;
+    let isTeacher = props.user.permission && (!!props.user.permission.teacher || !!props.user.permission.superadmin);
 
     return <Box className={styles.menuBar}>
         <div className={styles.mainMenu}>
@@ -160,6 +166,28 @@ const MenuBar = props => {
                         </MenuSection>
                     </MenuBarMenu>
                 </div>
+                {isTeacher ? (
+                    <div
+                        className={classNames(styles.menuBarItem, styles.hoverable, {
+                            [styles.active]: props.teacherMenuOpen
+                        })}
+                        onMouseUp={props.onClickTeacherMenu}
+                    >
+                        <div className={classNames(styles.teacherMenu)}>教师操作</div>
+                        <MenuBarMenu
+                            open={props.teacherMenuOpen}
+                            onRequestClose={props.onRequestCloseTeacherMenu}
+                        >
+                            <MenuItemTooltip id="new">
+                                <MenuItem>新建项目</MenuItem>
+                            </MenuItemTooltip>
+                            <MenuSection>
+                                <MenuItem>获取学生界面</MenuItem>
+                                <MenuItem>分发脚本</MenuItem>
+                            </MenuSection>
+                        </MenuBarMenu>
+                    </div>
+                ) : null}
                 <div
                     className={classNames(styles.menuBarItem, styles.hoverable, {
                         [styles.active]: props.editMenuOpen
@@ -284,8 +312,10 @@ const MenuBar = props => {
 MenuBar.propTypes = {
     editMenuOpen: PropTypes.bool,
     fileMenuOpen: PropTypes.bool,
+    teacherMenuOpen: PropTypes.bool,
     onClickEdit: PropTypes.func,
     onClickFile: PropTypes.func,
+    onClickTeacherMenu: PropTypes.func,
     onGiveFeedback: PropTypes.func.isRequired,
     onRequestCloseEdit: PropTypes.func,
     onRequestCloseFile: PropTypes.func,
@@ -294,6 +324,7 @@ MenuBar.propTypes = {
 
 const mapStateToProps = state => ({
     fileMenuOpen: fileMenuOpen(state),
+    teacherMenuOpen: teacherMenuOpen(state),
     editMenuOpen: editMenuOpen(state),
     user: state.user,
 });
@@ -301,7 +332,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onGiveFeedback: () => dispatch(openFeedbackForm()),
     onClickFile: () => dispatch(openFileMenu()),
+    onClickTeacherMenu: () => dispatch(openTeacherMenu()),
     onRequestCloseFile: () => dispatch(closeFileMenu()),
+    onRequestCloseTeacherMenu: () => dispatch(closeTeacherMenu()),
     onClickEdit: () => dispatch(openEditMenu()),
     onRequestCloseEdit: () => dispatch(closeEditMenu()),
     onLoginClicked: () => { dispatch(openLoginForm())},

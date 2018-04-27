@@ -2,11 +2,13 @@ const OPEN_MENU = 'scratch-gui/menus/OPEN_MENU';
 const CLOSE_MENU = 'scratch-gui/menus/CLOSE_MENU';
 
 const MENU_FILE = 'fileMenu';
+const MENU_TEACHER = 'teacherMenu';
 const MENU_EDIT = 'editMenu';
 
 
 const initialState = {
     [MENU_FILE]: false,
+    [MENU_TEACHER]: false,
     [MENU_EDIT]: false
 };
 
@@ -36,16 +38,27 @@ const closeMenu = menu => ({
 const openFileMenu = () => openMenu(MENU_FILE);
 const closeFileMenu = () => closeMenu(MENU_FILE);
 const fileMenuOpen = state => state.menus[MENU_FILE];
+
+const openTeacherMenu = () => openMenu(MENU_TEACHER);
+const closeTeacherMenu = () => closeMenu(MENU_TEACHER);
+const teacherMenuOpen = state => state.menus[MENU_TEACHER];
+
 const openEditMenu = () => openMenu(MENU_EDIT);
 const closeEditMenu = () => closeMenu(MENU_EDIT);
 const editMenuOpen = state => state.menus[MENU_EDIT];
 
 export {
     reducer as default,
+    fileMenuOpen,
     openFileMenu,
     closeFileMenu,
+
     openEditMenu,
-    closeEditMenu,
-    fileMenuOpen,
+    closeEditMenu, 
+
+    teacherMenuOpen,
+    openTeacherMenu,
+    closeTeacherMenu,
+    
     editMenuOpen
 };
