@@ -53,6 +53,7 @@ class SaveCloudButton extends React.Component {
         }, config)
         .then((res)=>{
             if (res.data.code==0){
+                //不是很对，需要区分另存为和保存
                 if (this.props.project.owner == this.props.user.id ) {
                     alert("保存成功");
                 }
@@ -75,36 +76,9 @@ class SaveCloudButton extends React.Component {
             alert("网络错误" + error)
         });
 
-        // xhr({
-        //     method: "POST",
-        //     url: ASSETS_ROOT + "/projects",
-        //     body: JSON.stringify({
-        //         id: projectId,
-        //         name: name,
-        //         owner: this.props.user.id,
-        //         hash: hash,
-        //         data: json
-        //     }),
-        // }, (err, response, body) => {
-        //     if (!err) {
-        //         if ( this.props.project.owner == this.props.user.id ) {
-        //             alert("保存成功");
-        //         }
-        //         else {
-        //             alert("上传成功，项目代码 ：" + projectId);
-        //         }
-        //         console.log("project saved");
-        //         this.props.setProject({
-        //             id: projectId,
-        //             name: name,
-        //             owner: this.props.user.id,
-        //             hash: hash,
-        //         });
-        //     }
-        // });
-
         this.saveCostumes();
     }
+
     saveCostumes() {
         if (!window.FormData) {
             throw new Error("Unsupported browser");
@@ -151,7 +125,6 @@ class SaveCloudButton extends React.Component {
                             },
                         }
                         alert("uploading costume: " + costume.assetId);
-                        debugger
                         axios.post(url, form, config)
                         .then((res)=>{
                             if (res.data.code==0){

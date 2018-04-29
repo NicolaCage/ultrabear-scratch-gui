@@ -93,7 +93,8 @@ class GUI extends React.Component {
                         if (res.data.code==0) {
                             let user = res.data.data;
                             user.jwt = jwt;
-                            this.props.onSetUser(user);                        
+                            this.props.onSetUser(user);
+                            window.history.pushState({}, document.title, "/");
                         }
                     })
                 }

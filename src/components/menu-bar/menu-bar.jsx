@@ -40,6 +40,7 @@ import dropdownCaret from '../language-selector/dropdown-caret.svg';
 import scratchLogo from './scratch-logo.svg';
 
 import SaveCloudButton from '../../containers/save-cloud-button.jsx';
+import LoadCloudButton from '../../containers/load-cloud-button.jsx';
 
 const MenuBarItemTooltip = ({
     children,
@@ -146,7 +147,9 @@ const MenuBar = props => {
                                 <MenuItem>
                                     <SaveCloudButton className={styles.menuItem} />
                                 </MenuItem>
-                                <MenuItem>从云端导入</MenuItem>
+                                <MenuItem>
+                                    <LoadCloudButton className={styles.menuItem}/>
+                                </MenuItem>
                             </MenuSection>
                         ) : null}
                         <MenuSection>
@@ -182,9 +185,6 @@ const MenuBar = props => {
                             open={props.teacherMenuOpen}
                             onRequestClose={props.onRequestCloseTeacherMenu}
                         >
-                            <MenuItemTooltip id="new">
-                                <MenuItem>新建项目</MenuItem>
-                            </MenuItemTooltip>
                             <MenuSection>
                                 <MenuItem>获取学生界面</MenuItem>
                                 <MenuItem>分发脚本</MenuItem>
