@@ -124,7 +124,6 @@ class SaveCloudButton extends React.Component {
                                 'Content-Type':'multipart/form-data'
                             },
                         }
-                        alert("uploading costume: " + costume.assetId);
                         axios.post(url, form, config)
                         .then((res)=>{
                             if (res.data.code==0){

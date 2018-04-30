@@ -74,12 +74,12 @@ class LoadCloudButton extends React.Component {
             ...props
         } = this.props;
         return (
-            <ButtonComponent
-                onClick={this.handleClick}
+            <section
+            onClick={this.handleClick}
                 {...props}
             >
                 从云端导入
-            </ButtonComponent>
+            </section>
         );
     }
 }
