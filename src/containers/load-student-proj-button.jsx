@@ -23,7 +23,7 @@ class LoadStudentProjButton extends React.Component {
 
     handleClick () {
         if(this.props.forRefresh) {
-            this.fetchStudentRealtimeWorkSpace(this.props.project.owner);
+            this.fetchStudentRealtimeWorkSpace(this.props.project.unionid);
         }
         else {
             let unionid = prompt("要查看的学生UnionId");
@@ -41,7 +41,7 @@ class LoadStudentProjButton extends React.Component {
             },
         }
         this.props.openLoadingState();
-        axios.get( SCRATCH_SERVER_BASE+ '/live/sb3/' + unionid, config)
+        axios.get( SCRATCH_SERVER_BASE + '/live/sb3/' + unionid, config)
         .then((res)=>{
             let data = res.data.data
             let code = res.data.code
@@ -52,7 +52,7 @@ class LoadStudentProjButton extends React.Component {
                     this.props.setProject({
                         id: "",
                         name: "",
-                        owner: unionid,
+                        unionid: unionid,
                         hash: "",
                         teacher: "",
                         isStudentRealtime: true,

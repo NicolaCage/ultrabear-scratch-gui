@@ -21,8 +21,8 @@ class AssginProjectWindow extends React.Component {
 
     chooseProject(projectId) {
 
-        let studentId = prompt("请输入学生的用户名:");
-        let newProjectId = this.props.user.id + "_" + studentId + "_" + projectId;
+        let studentUId = prompt("请输入学生的Unionid:");
+        let newProjectId = this.props.user.id + "_" + studentUId + "_" + projectId;
 
         xhr({
             method: "POST",
@@ -30,7 +30,7 @@ class AssginProjectWindow extends React.Component {
             body: JSON.stringify({
                 id: newProjectId,
                 name: this.props.project.name,
-                owner: studentId
+                unionid: studentUId
             }),
             headers: {
                 "Content-Type": "application/json",

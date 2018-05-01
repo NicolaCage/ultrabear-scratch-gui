@@ -36,7 +36,7 @@ class ProjectList extends React.Component {
                 this.props.setProject({
                     id: body.data.id,
                     name: body.data.name,
-                    owner: body.data.owner,
+                    unionid: body.data.unionid,
                     hash: body.data.hash,
                 });
                 this.props.close();

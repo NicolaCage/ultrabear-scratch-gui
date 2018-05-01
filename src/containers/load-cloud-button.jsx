@@ -40,7 +40,7 @@ class LoadCloudButton extends React.Component {
                 this.props.setProject({
                     id: projectId,
                     name: data.name,
-                    owner: data.owner,
+                    unionid: data.unionid,
                     hash: data.hash,
                 });
                 let project = data.data;

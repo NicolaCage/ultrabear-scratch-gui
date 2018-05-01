@@ -1,7 +1,7 @@
 const initialState = {
     id: "",
     name: "new project",
-    owner: "",
+    unionid: "",
     hash: "",
     teacher: "",
     isStudentRealtime: false,
@@ -25,7 +25,7 @@ const setProject = function (projectInfo) {
         project: {
             id: projectInfo.id,
             name: projectInfo.name,
-            owner: projectInfo.owner,
+            unionid: projectInfo.unionid,
             hash: projectInfo.hash,
             teacher: projectInfo.teacher,
             isStudentRealtime: projectInfo.isStudentRealtime == undefined? false: projectInfo.isStudentRealtime,

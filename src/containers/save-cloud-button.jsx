@@ -34,7 +34,7 @@ class SaveCloudButton extends React.Component {
             return;
         }
         // Project NOT changed
-        if (this.props.project.owner == this.props.user.id) {
+        if (this.props.project.unionid == this.props.user.unionid) {
             projectId = this.props.project.id
         }
 
@@ -47,14 +47,14 @@ class SaveCloudButton extends React.Component {
         axios.post(ASSETS_ROOT + "/projects", {
             id: projectId,
             name: name,
-            owner: this.props.user.id,
+            unionid: this.props.user.unionid,
             hash: hash,
             data: json
         }, config)
         .then((res)=>{
             if (res.data.code==0){
                 //不是很对，需要区分另存为和保存
-                if (this.props.project.owner == this.props.user.id ) {
+                if (this.props.project.unionid == this.props.user.unionid ) {
                     alert("保存成功");
                 }
                 else {
@@ -64,7 +64,7 @@ class SaveCloudButton extends React.Component {
                 this.props.setProject({
                     id: projectId,
                     name: name,
-                    owner: this.props.user.id,
+                    unionid: this.props.user.unionid,
                     hash: hash,
                 });
             }
