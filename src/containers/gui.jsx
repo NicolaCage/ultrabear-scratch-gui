@@ -21,13 +21,20 @@ import xhr from 'xhr';
 import {setUser, unsetUser} from '../reducers/user';
 import {openRegisterForm} from '../reducers/modals';
 import bindAll from 'lodash.bindall';
+import protocol from '../lib/websocket-protocol'
+
 const loginValidSeconds = 60*60;
 
 class GUI extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, [
-            'checkAuth'
+            'checkAuth',
+            'initialWebsocket',
+            'handleWSOpen',
+            'handleWSClose',
+            'handleWSData',
+            'sendWSPacket',
         ]);
         this.state = {
             loading: true,
@@ -44,6 +51,49 @@ class GUI extends React.Component {
             return false;
         }
         return true;
+    }
+
+    handleWSOpen () {
+        console.log("connection opened");
+    }
+
+    handleWSClose () {
+        console.log("connection closed");
+    }
+
+    handleWSData (msg) {
+        let decoded = JSON.parse(msg.data);
+        if(decoded.type === protocol.MSG_REQUEST_PROJECT_SB3) {
+            let toJSON = this.props.vm.toJSON.bind(this.props.vm);
+            let sb3 = toJSON();
+            this.sendWSPacket(protocol.MSG_RESPONSE_PROJECT_SB3, sb3);
+        }
+        else if(decoded.type === protocol.MSG_STATUS_CHECK) {
+            this.sendWSPacket(protocol.MSG_ALIVE, null);
+        }
+    }
+
+    sendWSPacket (type, data) {
+        let msg = JSON.stringify({
+            type: type,
+            data: data
+        })
+        this.state.socket.send(msg)
+    }
+
+    initialWebsocket() {
+        // Deal with Websocket
+        let uid = this.props.user.unionid;
+        if (!uid) {
+            return;
+        }
+        let socket = new WebSocket('ws://localhost:8606/connect/' + uid);
+        socket.onopen = () => this.handleWSOpen();
+        socket.onmessage = (m) => this.handleWSData(m);
+        socket.onclose = () => this.handleWSClose();
+        this.setState({
+            socket: socket
+        });
     }
 
     componentDidMount () {
@@ -108,6 +158,8 @@ class GUI extends React.Component {
                 alert("验证失败" + error);
             });
         }
+
+        this.initialWebsocket();
     }
 
     componentWillReceiveProps (nextProps) {
@@ -184,6 +236,7 @@ const mapStateToProps = state => ({
     projectListVisible: state.modals.projectList,
     soundsTabVisible: state.editorTab.activeTabIndex === SOUNDS_TAB_INDEX,
     user: state.user,
+    vm: state.vm,
 });
 
 const mapDispatchToProps = dispatch => ({

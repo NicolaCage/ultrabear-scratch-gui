@@ -4,6 +4,7 @@ const initialState = {
     owner: "",
     hash: "",
     teacher: "",
+    isStudentRealtime: false,
 };
 
 const SETUP_PROJECT = 'scratch-gui/project/SETUP_PROJECT';
@@ -27,6 +28,7 @@ const setProject = function (projectInfo) {
             owner: projectInfo.owner,
             hash: projectInfo.hash,
             teacher: projectInfo.teacher,
+            isStudentRealtime: projectInfo.isStudentRealtime == undefined? false: projectInfo.isStudentRealtime,
         }
     };
 };

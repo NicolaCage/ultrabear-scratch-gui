@@ -41,6 +41,7 @@ import scratchLogo from './scratch-logo.svg';
 
 import SaveCloudButton from '../../containers/save-cloud-button.jsx';
 import LoadCloudButton from '../../containers/load-cloud-button.jsx';
+import LoadStudentProjButton from '../../containers/load-student-proj-button.jsx';
 
 const MenuBarItemTooltip = ({
     children,
@@ -107,7 +108,8 @@ MenuBarMenu.propTypes = {
 
 const MenuBar = props => {
     let validUser = !!props.user && !!props.user.id && !!props.user.unionid;
-    let isTeacher = props.user.permission && (!!props.user.permission.teacher || !!props.user.permission.superadmin);
+    let isTeacher = true;props.user.permission && (!!props.user.permission.teacher || !!props.user.permission.superadmin);
+    let isStudentRealtime = props.project.isStudentRealtime;
 
     return <Box className={styles.menuBar}>
         <div className={styles.mainMenu}>
@@ -186,7 +188,9 @@ const MenuBar = props => {
                             onRequestClose={props.onRequestCloseTeacherMenu}
                         >
                             <MenuSection>
-                                <MenuItem>获取学生界面</MenuItem>
+                                <MenuItem>
+                                    <LoadStudentProjButton/>
+                                </MenuItem>
                                 <MenuItem>分发脚本</MenuItem>
                             </MenuSection>
                         </MenuBarMenu>
@@ -216,6 +220,13 @@ const MenuBar = props => {
                         </MenuSection>
                     </MenuBarMenu>
                 </div>
+                {
+                    isStudentRealtime? (
+                        <LoadStudentProjButton forRefresh = {true} />
+                    ):(
+                        null
+                    )
+                }
             </div>
             <div className={classNames(styles.divider)} />
             {/* <div className={classNames(styles.menuBarItem)}>
@@ -331,6 +342,7 @@ const mapStateToProps = state => ({
     teacherMenuOpen: teacherMenuOpen(state),
     editMenuOpen: editMenuOpen(state),
     user: state.user,
+    project: state.project,
 });
 
 const mapDispatchToProps = dispatch => ({
