@@ -42,6 +42,7 @@ import scratchLogo from './scratch-logo.svg';
 import SaveCloudButton from '../../containers/save-cloud-button.jsx';
 import LoadCloudButton from '../../containers/load-cloud-button.jsx';
 import LoadStudentProjButton from '../../containers/load-student-proj-button.jsx';
+import AssignProjectButton from '../../containers/assign-project-button.jsx';
 
 const MenuBarItemTooltip = ({
     children,
@@ -191,7 +192,9 @@ const MenuBar = props => {
                                 <MenuItem>
                                     <LoadStudentProjButton/>
                                 </MenuItem>
-                                <MenuItem>分发脚本</MenuItem>
+                                <MenuItem>
+                                    <AssignProjectButton/>
+                                </MenuItem>
                             </MenuSection>
                         </MenuBarMenu>
                     </div>
