@@ -16,7 +16,7 @@ import vmListenerHOC from '../lib/vm-listener-hoc.jsx';
 
 import GUIComponent from '../components/gui/gui.jsx';
 
-import { AUTH_ROOT, USER_INFO_API_URL, WECHAT_SCAN_API_URL } from '../api-config';
+import { AUTH_ROOT, USER_INFO_API_URL, WECHAT_SCAN_API_URL, WORKSPACE_SOCKET_URL } from '../api-config';
 import xhr from 'xhr';
 import {setUser, unsetUser} from '../reducers/user';
 import {openRegisterForm} from '../reducers/modals';
@@ -54,11 +54,11 @@ class GUI extends React.Component {
     }
 
     handleWSOpen () {
-        console.log("connection opened");
+        alert("connection opened");
     }
 
     handleWSClose () {
-        console.log("connection closed");
+        alert("connection closed");
     }
 
     handleWSData (msg) {
@@ -87,7 +87,7 @@ class GUI extends React.Component {
         if (!uid) {
             return;
         }
-        let socket = new WebSocket('ws://localhost:8606/connect/' + uid);
+        let socket = new WebSocket( WORKSPACE_SOCKET_URL + "/" + uid);
         socket.onopen = () => this.handleWSOpen();
         socket.onmessage = (m) => this.handleWSData(m);
         socket.onclose = () => this.handleWSClose();

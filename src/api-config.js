@@ -23,4 +23,6 @@ export const AUTH_ROOT = `${authHost}`;
 export const URL = 'https://www.ultrabear.com.cn';
 export const WECHAT_SCAN_API_URL = "https://www.ultrabear.com.cn/auth/api/v1.0/wechat/coding";
 export const USER_INFO_API_URL = "https://www.ultrabear.com.cn/auth/api/v1.0/user/info";
-export const ASSETS_ROOT = "https://assets.ultrabear.com.cn"
+export const ASSETS_ROOT = "https://assets.ultrabear.com.cn";
+export const WORKSPACE_SOCKET_URL = 'wss://assets.ultrabear.com.cn/ws/connect';
+export const SCRATCH_SERVER_BASE = 'https://assets.ultrabear.com.cn/scratch';

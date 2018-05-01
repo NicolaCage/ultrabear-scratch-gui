@@ -41,7 +41,7 @@ class LoadStudentProjButton extends React.Component {
             },
         }
         this.props.openLoadingState();
-        axios.get('http://localhost:8606/live/sb3/'+unionid, config)
+        axios.get( SCRATCH_SERVER_BASE+ '/live/sb3/' + unionid, config)
         .then((res)=>{
             let data = res.data.data
             let code = res.data.code
