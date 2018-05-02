@@ -4,7 +4,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import ButtonComponent from '../components/button/button.jsx';
-import { ASSETS_ROOT } from '../api-config';
+import { ASSETS_ROOT, SCRATCH_SERVER_BASE } from '../api-config';
 import {setProject} from '../reducers/project';
 import {openLoadingProject, closeLoadingProject, openProjectList} from '../reducers/modals'
 
