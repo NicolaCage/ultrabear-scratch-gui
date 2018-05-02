@@ -8,11 +8,12 @@ import { ASSETS_ROOT } from '../api-config';
 import {setProject} from '../reducers/project';
 import {openLoadingProject, closeLoadingProject, openProjectList} from '../reducers/modals'
 
-class LoadCloudButton extends React.Component {
+class LoadStudentProjButton extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, [
             'handleClick',
+            'fetchStudentRealtimeWorkSpace',
         ]);
         this.state = {
             loadingError: false,
@@ -21,32 +22,41 @@ class LoadCloudButton extends React.Component {
     }
 
     handleClick () {
-        let projectId = prompt("项目ID：");
-        if (!projectId) {
-            return;
+        if(this.props.forRefresh) {
+            this.fetchStudentRealtimeWorkSpace(this.props.project.unionid);
         }
-        
+        else {
+            let unionid = prompt("要查看的学生UnionId");
+            if (!unionid) {
+                return;
+            }
+            this.fetchStudentRealtimeWorkSpace(unionid);
+        }
+    }
+
+    fetchStudentRealtimeWorkSpace(unionid) {
         let config = {
             headers:{
                 jwt:this.props.user.jwt,
             },
         }
         this.props.openLoadingState();
-        axios.get(ASSETS_ROOT + "/projects/" + projectId, config)
+        axios.get( SCRATCH_SERVER_BASE + '/live/sb3/' + unionid, config)
         .then((res)=>{
             let data = res.data.data
             let code = res.data.code
             if (code==0){
-                this.props.setProject({
-                    id: projectId,
-                    name: data.name,
-                    unionid: data.unionid,
-                    hash: data.hash,
-                });
-                let project = data.data;
-                this.props.vm.loadProject(project)
+                this.props.vm.loadProject(data)
                 .then(() => {
                     this.props.closeLoadingState();
+                    this.props.setProject({
+                        id: "",
+                        name: "",
+                        unionid: unionid,
+                        hash: "",
+                        teacher: "",
+                        isStudentRealtime: true,
+                    });
                 })
                 .catch(error => {
                     this.setState({loadingError: true, errorMessage: error});
@@ -75,24 +85,27 @@ class LoadCloudButton extends React.Component {
         } = this.props;
         return (
             <section
-            onClick={this.handleClick}
+                style= {{cursor: "pointer"}}
+                onClick={this.handleClick}
                 {...props}
             >
-                从云端导入
+                {this.props.forRefresh ? "刷新学生界面":"获取学生界面"}
             </section>
         );
     }
 }
 
-LoadCloudButton.propTypes = {
+LoadStudentProjButton.propTypes = {
     vm: PropTypes.shape({
         loadProject: PropTypes.func
-    })
+    }),
+    forRefresh: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
     vm: state.vm,
     user: state.user,
+    project: state.project,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -104,4 +117,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(LoadCloudButton);
+)(LoadStudentProjButton);

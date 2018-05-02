@@ -22,7 +22,6 @@ class LoginForm extends React.Component {
     handleLogin(datas){
         axios.post(URL + '/auth/api/v1.0/login', datas)
         .then(response => {
-            debugger
             if (response.data.code==0) {
                 let jwt = response.data.data;
                 const config = {

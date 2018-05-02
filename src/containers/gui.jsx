@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import VM from 'scratch-vm';
 import {connect} from 'react-redux';
-
+import axios from 'axios';
 import {openExtensionLibrary} from '../reducers/modals';
 import {
     activateTab,
@@ -16,18 +16,25 @@ import vmListenerHOC from '../lib/vm-listener-hoc.jsx';
 
 import GUIComponent from '../components/gui/gui.jsx';
 
-import { AUTH_ROOT } from '../api-config';
+import { AUTH_ROOT, USER_INFO_API_URL, WECHAT_SCAN_API_URL, WORKSPACE_SOCKET_URL } from '../api-config';
 import xhr from 'xhr';
 import {setUser, unsetUser} from '../reducers/user';
 import {openRegisterForm} from '../reducers/modals';
 import bindAll from 'lodash.bindall';
+import protocol from '../lib/websocket-protocol'
+
 const loginValidSeconds = 60*60;
 
 class GUI extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, [
-            'checkAuth'
+            'checkAuth',
+            'initialWebsocket',
+            'handleWSOpen',
+            'handleWSClose',
+            'handleWSData',
+            'sendWSPacket',
         ]);
         this.state = {
             loading: true,
@@ -35,25 +42,60 @@ class GUI extends React.Component {
             errorMessage: ''
         };
     }
-        checkAuth() {
-            let jwt = this.props.user.jwt;
-            if (jwt == null || jwt.length == 0) {
-                this.props.onUnSetUser();
-                console.log("continu as guest");
-                return false;
-            }
-            var decoded = jwtDecode(jwt);
-            console.log("login successfully as " + decoded.name);
-            this.props.onSetUser({
-                id: decoded.id,
-                permission: decoded.permission,
-                name: decoded.name,
-                openId: decoded.openId,
-                unionId: decoded.unionId,
-                jwt: jwt
-            });
-            return true;
+    
+    checkAuth() {
+        let jwt = this.props.user.jwt;
+        if (jwt == null || jwt.length == 0) {
+            this.props.onUnSetUser();
+            console.log("continu as guest");
+            return false;
         }
+        return true;
+    }
+
+    handleWSOpen () {
+        alert("connection opened");
+    }
+
+    handleWSClose () {
+        alert("connection closed");
+    }
+
+    handleWSData (msg) {
+        let decoded = JSON.parse(msg.data);
+        if(decoded.type === protocol.MSG_REQUEST_PROJECT_SB3) {
+            let toJSON = this.props.vm.toJSON.bind(this.props.vm);
+            let sb3 = toJSON();
+            this.sendWSPacket(protocol.MSG_RESPONSE_PROJECT_SB3, sb3);
+        }
+        else if(decoded.type === protocol.MSG_STATUS_CHECK) {
+            this.sendWSPacket(protocol.MSG_ALIVE, null);
+        }
+    }
+
+    sendWSPacket (type, data) {
+        let msg = JSON.stringify({
+            type: type,
+            data: data
+        })
+        this.state.socket.send(msg)
+    }
+
+    initialWebsocket() {
+        // Deal with Websocket
+        let uid = this.props.user.unionid;
+        if (!uid) {
+            return;
+        }
+        let socket = new WebSocket( WORKSPACE_SOCKET_URL + "/" + uid);
+        socket.onopen = () => this.handleWSOpen();
+        socket.onmessage = (m) => this.handleWSData(m);
+        socket.onclose = () => this.handleWSClose();
+        this.setState({
+            socket: socket
+        });
+    }
+
     componentDidMount () {
         let self = this;
         this.audioEngine = new AudioEngine();
@@ -85,54 +127,41 @@ class GUI extends React.Component {
         let state = getParameterByName('state');
 
         if (code) {
-            xhr({
-                method: "POST",
-                url: AUTH_ROOT + '/wechat',
-                body: JSON.stringify({
-                    code: code
-                }),
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            }, (err, response, body) => {
-                // body = JSON.parse(body);
-                // if (!err && body.code == 0 && body.data) {
-                //     let jwt = body.data;
-                //     var decoded = jwtDecode(jwt);
-                //     // if (body.msg.includes("id")) {
-                //     if (true) {
-                //         // need set up id
-                //         console.log(body.msg);
-
-                //         self.props.onSetUser({
-                //             id: null,
-                //             permission: null,
-                //             name: null,
-                //             openId: decoded.openId,
-                //             unionId: decoded.unionId,
-                //             jwt: jwt
-                //         });
-
-                //         self.props.onOpenRegisterForm();
-                //     }
-                //     else {
-                //         cookie.save('userId', decoded.id, { path: '/', maxAge: loginValidSeconds });
-                //         cookie.save('userName', decoded.name, { path: '/', maxAge: loginValidSeconds });
-                //         cookie.save('permission', decoded.permission, { path: '/', maxAge: loginValidSeconds });
-                //         cookie.save('jwt', jwt, { path: '/', maxAge: loginValidSeconds });
-                        
-                //         window.location = "/";
-                //     }
-                // }
-                // else {
-                //     alert("验证失败");
-                // }
+            axios.post( WECHAT_SCAN_API_URL, {
+                code: code
+            })
+            .then( response => {
+                if (response.data.code == 0) {
+                    let jwt = response.data.data;
+                    const config = {
+                        headers: {
+                            'jwt': jwt
+                        }
+                    }
+                    axios.get(USER_INFO_API_URL, config)
+                    .then( res => {
+                        if (res.data.code==0) {
+                            let user = res.data.data;
+                            user.jwt = jwt;
+                            this.props.onSetUser(user);
+                            window.history.pushState({}, document.title, "/");
+                        }
+                    })
+                }
+                else {
+                    alert("验证失败");
+                    console.log(response.data);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                alert("验证失败" + error);
             });
         }
-        else {
-            let loggedin = this.checkAuth();
-        }
+
+        this.initialWebsocket();
     }
+
     componentWillReceiveProps (nextProps) {
         if (this.props.projectData !== nextProps.projectData) {
             this.setState({loading: true}, () => {
@@ -148,9 +177,11 @@ class GUI extends React.Component {
             });
         }
     }
+
     componentWillUnmount () {
         this.props.vm.stopAll();
     }
+
     render () {
         if (this.state.loadingError) throw new Error(`Failed to load project: ${this.state.errorMessage}`);
         const {
@@ -205,6 +236,7 @@ const mapStateToProps = state => ({
     projectListVisible: state.modals.projectList,
     soundsTabVisible: state.editorTab.activeTabIndex === SOUNDS_TAB_INDEX,
     user: state.user,
+    vm: state.vm,
 });
 
 const mapDispatchToProps = dispatch => ({

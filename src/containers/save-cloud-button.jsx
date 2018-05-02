@@ -6,6 +6,7 @@ import VM from 'scratch-vm';
 import axios from 'axios';
 import md5 from 'md5';
 import ButtonComponent from '../components/button/button.jsx';
+import styles from '../components/button/button.css';
 import {setProject} from '../reducers/project';
 import { ASSETS_ROOT } from '../api-config';
 
@@ -33,7 +34,7 @@ class SaveCloudButton extends React.Component {
             return;
         }
         // Project NOT changed
-        if (this.props.project.owner == this.props.user.id) {
+        if (this.props.project.unionid == this.props.user.unionid) {
             projectId = this.props.project.id
         }
 
@@ -46,13 +47,14 @@ class SaveCloudButton extends React.Component {
         axios.post(ASSETS_ROOT + "/projects", {
             id: projectId,
             name: name,
-            owner: this.props.user.id,
+            unionid: this.props.user.unionid,
             hash: hash,
             data: json
         }, config)
         .then((res)=>{
             if (res.data.code==0){
-                if (this.props.project.owner == this.props.user.id ) {
+                //不是很对，需要区分另存为和保存
+                if (this.props.project.unionid == this.props.user.unionid ) {
                     alert("保存成功");
                 }
                 else {
@@ -62,7 +64,7 @@ class SaveCloudButton extends React.Component {
                 this.props.setProject({
                     id: projectId,
                     name: name,
-                    owner: this.props.user.id,
+                    unionid: this.props.user.unionid,
                     hash: hash,
                 });
             }
@@ -74,36 +76,9 @@ class SaveCloudButton extends React.Component {
             alert("网络错误" + error)
         });
 
-        // xhr({
-        //     method: "POST",
-        //     url: ASSETS_ROOT + "/projects",
-        //     body: JSON.stringify({
-        //         id: projectId,
-        //         name: name,
-        //         owner: this.props.user.id,
-        //         hash: hash,
-        //         data: json
-        //     }),
-        // }, (err, response, body) => {
-        //     if (!err) {
-        //         if ( this.props.project.owner == this.props.user.id ) {
-        //             alert("保存成功");
-        //         }
-        //         else {
-        //             alert("上传成功，项目代码 ：" + projectId);
-        //         }
-        //         console.log("project saved");
-        //         this.props.setProject({
-        //             id: projectId,
-        //             name: name,
-        //             owner: this.props.user.id,
-        //             hash: hash,
-        //         });
-        //     }
-        // });
-
         this.saveCostumes();
     }
+
     saveCostumes() {
         if (!window.FormData) {
             throw new Error("Unsupported browser");
@@ -149,8 +124,6 @@ class SaveCloudButton extends React.Component {
                                 'Content-Type':'multipart/form-data'
                             },
                         }
-                        alert("uploading costume: " + costume.assetId);
-                        debugger
                         axios.post(url, form, config)
                         .then((res)=>{
                             if (res.data.code==0){
@@ -233,12 +206,12 @@ class SaveCloudButton extends React.Component {
             ...props
         } = this.props;
         return (
-            <ButtonComponent
+            <section
                 onClick={this.handleClick}
                 {...props}
             >
                 保存到云端
-            </ButtonComponent>
+            </section>
         );
     }
 }

@@ -26,9 +26,12 @@ const reducer = function (state, action) {
     if (typeof state === 'undefined') state = initialState;
     switch (action.type) {
     case SETUP_USER:
-        if (action.user) return action.user;
+        if (action.user) {
+            localStorage.setItem('user', JSON.stringify(action.user));
+            return action.user;
+        }
         else return state;
-    case SETUP_USER:
+    case UNSET_USER:
         return null;
     default:
         return state;
@@ -44,7 +47,7 @@ const setUser = function (userInfo) {
 
 const unsetUser = function () {
     return {
-        type: SETUP_USER
+        type: UNSET_USER
     };
 };
 
