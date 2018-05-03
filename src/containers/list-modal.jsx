@@ -2,107 +2,130 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
-
 import ListModalComponent from '../components/list-modal/list-modal.jsx';
+import ReactModal from 'react-modal';
+import {setUser} from '../reducers/user';
+import {closeLoginForm} from '../reducers/modals';
+import {closeProjectsList, openProjectList,openProjectsList} from '../reducers/modals'
+import {setProject} from '../reducers/project';
+import { AUTH_ROOT, ASSETS_ROOT, USER_INFO_API_URL ,SCRATCH_SERVER_BASE} from '../api-config';
+import axios from 'axios';
 
-import {
-    closeImportInfo,
-    openPreviewInfo
-} from '../reducers/modals';
+const loginValidSeconds = 60*60;
 
 class ListModal extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, [
-            'handleViewProject',
-            'handleCancel',
-            'handleChange',
-            'handleGoBack',
-            'handleKeyPress'
+            'InProject',
+            'GetDetail'
         ]);
-
-        this.state = {
-            inputValue: '',
-            hasValidationError: false,
-            errorMessage: ''
-        };
-    }
-    handleKeyPress (event) {
-        if (event.key === 'Enter') this.handleViewProject();
-    }
-    handleViewProject () {
-        const inputValue = this.state.inputValue;
-        const projectId = this.validate(inputValue);
-
-        if (projectId) {
-            const projectLink = document.createElement('a');
-            document.body.appendChild(projectLink);
-            projectLink.href = `#${projectId}`;
-            projectLink.click();
-            document.body.removeChild(projectLink);
-            this.props.onViewProject();
-        } else {
-            this.setState({
-                hasValidationError: true,
-                errorMessage: `invalidFormatError`});
+        this.state={
+            list:[],
+            detailjson:{}
         }
     }
-    handleChange (e) {
-        this.setState({inputValue: e.target.value, hasValidationError: false});
+    componentWillMount(){
+        axios.get(ASSETS_ROOT+'/projects')
+        .then( res => {
+            if (res.data.code==0) {
+                this.setState({
+                    list: res.data.data
+                })
+            }
+        }).catch(err => {
+            　　alert(err);
+        });
     }
-    validate (input) {
-        const urlMatches = input.match(/^(?:https?:\/\/)?scratch\.mit\.edu\/projects\/(\d+)/);
-        if (urlMatches && urlMatches.length > 0) {
-            return urlMatches[1];
+    GetDetail(id){
+        console.log(id)
+        axios.get(ASSETS_ROOT+'/projects/'+id)
+        .then( res => {
+            if (res.data.code==0) {
+                this.setState({
+                    detailjson: res.data.data
+                })
+            }
+        }).catch(err => {
+            　　alert(err);
+        });
+    }
+    InProject(id){
+       this.fetchStudentRealtimeWorkSpace(id)
+    }
+    fetchStudentRealtimeWorkSpace(unionid) {
+        let config = {
+            headers:{
+                jwt:this.props.user.jwt,
+            },
         }
-        const projectIdMatches = input.match(/^#?(\d+)$/);
-        if (projectIdMatches && projectIdMatches.length > 0) {
-            return projectIdMatches[1];
-        }
-        return null;
-    }
-    handleCancel () {
-        this.props.onCancel();
-    }
-    handleGoBack () {
-        this.props.onBack();
+        this.props.openLoadingState();
+        axios.get( SCRATCH_SERVER_BASE + '/live/sb3/' + unionid, config)
+        .then((res)=>{
+            let data = res.data.data
+            let code = res.data.code
+            if (code==0){
+                this.props.vm.loadProject(this.state.detailjson)
+                .then(() => {
+                    this.props.closeLoadingState();
+                    this.props.setProject({
+                        id: "",
+                        name: "",
+                        unionid: unionid,
+                        hash: "",
+                        teacher: "",
+                        isStudentRealtime: true,
+                    });
+                })
+                .catch(error => {
+                    this.setState({loadingError: true, errorMessage: error});
+                    this.props.closeLoadingState();
+                });
+                
+            }
+            else {
+                alert('获取失败');
+                this.props.closeLoadingState();
+            }
+        })
+        .catch(error=>{
+            alert("网络错误" + error)
+        });
     }
     render () {
         return (
             <ListModalComponent
-                errorMessage={this.state.errorMessage}
-                hasValidationError={this.state.hasValidationError}
-                inputValue={this.state.inputValue}
-                placeholder="scratch.mit.edu/projects/123456789"
-                onCancel={this.handleCancel}
-                onChange={this.handleChange}
-                onGoBack={this.handleGoBack}
-                onKeyPress={this.handleKeyPress}
-                onViewProject={this.handleViewProject}
                 {...this.props}
+                list={this.state.list}
+                detailjson={this.state.detailjson}
+                detail={this.state.list}
+                InProject={this.InProject}
+                GetDetail={this.GetDetail}
             />
         );
     }
 }
 
 ListModal.propTypes = {
-    onBack: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onViewProject: PropTypes.func
+    vm: PropTypes.shape({
+        loadProject: PropTypes.func
+    }),
+     
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+    vm: state.vm,
+    user: state.user,
+    project: state.project,
+});
 
 const mapDispatchToProps = dispatch => ({
-    onBack: () => {
-        dispatch(closeImportInfo());
-        dispatch(openPreviewInfo());
-    },
-    onCancel: () => {
-        dispatch(closeImportInfo());
-    },
-    onViewProject: () => {
-        dispatch(closeImportInfo());
+    setUser: (user) => dispatch(setUser(user)),
+    setProject: (project) => dispatch(setProject(project)),
+    closeLoadingState: () => dispatch(closeProjectsList()),
+    openLoadingState: () => dispatch(openProjectsList()),
+    close: () => {
+        dispatch(closeProjectsList());
     }
 });
 

@@ -29,7 +29,7 @@ import {
 } from '../../reducers/menus';
 
 import {openLoginForm} from '../../reducers/modals';
-
+import {openProjectsList} from '../../reducers/modals';
 import styles from './menu-bar.css';
 
 import mystuffIcon from './icon--mystuff.png';
@@ -195,6 +195,14 @@ const MenuBar = props => {
                                 <MenuItem>
                                     <AssignProjectButton/>
                                 </MenuItem>
+                                <MenuItem>
+                                    <Button
+                                        style={{paddingLeft:"0"}}
+                                        onClick={props.onListClicked}
+                                    >
+                                        查看学生项目
+                                    </Button>
+                                </MenuItem>
                             </MenuSection>
                         </MenuBarMenu>
                     </div>
@@ -275,11 +283,7 @@ const MenuBar = props => {
                     iconSrc={profileIcon}
                     onClick={props.onLoginClicked}
                 >
-                    <FormattedMessage
-                        defaultMessage="登录"
-                        description="Label for login form modal button"
-                        id="gui.menuBar.giveFeedback"
-                    />
+                     登录
                 </Button>
                 {validUser ? (
                     <span className={styles.feedbackText}>
@@ -337,7 +341,8 @@ MenuBar.propTypes = {
     onGiveFeedback: PropTypes.func.isRequired,
     onRequestCloseEdit: PropTypes.func,
     onRequestCloseFile: PropTypes.func,
-    onLoginClicked: PropTypes.func.isRequired
+    onLoginClicked: PropTypes.func.isRequired,
+    onListClicked:PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -357,6 +362,7 @@ const mapDispatchToProps = dispatch => ({
     onClickEdit: () => dispatch(openEditMenu()),
     onRequestCloseEdit: () => dispatch(closeEditMenu()),
     onLoginClicked: () => { dispatch(openLoginForm())},
+    onListClicked: () => { dispatch(openProjectsList())},
 });
 
 export default connect(

@@ -22,7 +22,11 @@
     width: 500px;
     color: $text-primary;
     overflow: hidden;
+    background: #ffffff;
+    overflow: auto;
+    height: 666px;
 }
+ 
 
 /*
     TODO figure out how to remove filter altogether

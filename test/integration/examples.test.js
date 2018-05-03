@@ -70,11 +70,11 @@ describe('blocks example', () => {
         await clickText('Operators');
         await clickText('Variables');
         await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for scroll animation
-        await clickText('Make a Variable');
+        await clickText('Make a Variable1');
         let el = await findByXpath("//input[@placeholder='']");
         await el.sendKeys('score');
         await clickButton('OK');
-        await clickText('Make a Variable');
+        await clickText('Make a Variable1');
         el = await findByXpath("//input[@placeholder='']");
         await el.sendKeys('second variable');
         await clickButton('OK');

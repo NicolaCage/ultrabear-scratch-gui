@@ -8,6 +8,7 @@ const MODAL_COSTUME_LIBRARY = 'costumeLibrary';
 const MODAL_EXTENSION_LIBRARY = 'extensionLibrary';
 const MODAL_FEEDBACK_FORM = 'feedbackForm';
 const MODAL_LOGIN_FORM = 'loginForm';
+const MODAL_PROJECTS_LIST = 'projectsList';
 const MODAL_REGISTER_FORM = 'registerForm';
 const MODAL_PROJECT_LIST = 'projectList';
 const MODAL_IMPORT_INFO = 'importInfo';
@@ -24,6 +25,7 @@ const initialState = {
     [MODAL_EXTENSION_LIBRARY]: false,
     [MODAL_FEEDBACK_FORM]: false,
     [MODAL_LOGIN_FORM]: false,
+    [MODAL_PROJECTS_LIST]:false,
     [MODAL_REGISTER_FORM]: false,
     [MODAL_PROJECT_LIST]: false,
     [MODAL_IMPORT_INFO]: false,
@@ -60,6 +62,11 @@ const closeModal = function (modal) {
         type: CLOSE_MODAL,
         modal: modal
     };
+};
+//open
+
+const openProjectsList = function () {
+    return openModal(MODAL_PROJECTS_LIST);
 };
 const openBackdropLibrary = function () {
     analytics.pageview('/libraries/backdrops');
@@ -125,6 +132,12 @@ const closeExtensionLibrary = function () {
 const closeFeedbackForm = function () {
     return closeModal(MODAL_FEEDBACK_FORM);
 };
+
+
+//close
+const closeProjectsList = function () {
+    return closeModal(MODAL_PROJECTS_LIST);
+};
 const closeLoginForm = function () {
     return closeModal(MODAL_LOGIN_FORM);
 };
@@ -178,5 +191,7 @@ export {
     closeProjectList,
     closeSpriteLibrary,
     closeSoundLibrary,
-    closeSoundRecorder
+    closeSoundRecorder,
+    openProjectsList,
+    closeProjectsList,
 };

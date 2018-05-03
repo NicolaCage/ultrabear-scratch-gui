@@ -21,7 +21,6 @@ import MenuBar from '../menu-bar/menu-bar.jsx';
 import PreviewModal from '../../containers/preview-modal.jsx';
 import ImportModal from '../../containers/import-modal.jsx';
 import WebGlModal from '../../containers/webgl-modal.jsx';
-import ListModal from '../../containers/list-modal.jsx';
 import layout from '../../lib/layout-constants.js';
 import styles from './gui.css';
 import addExtensionIcon from './icon--extensions.svg';
@@ -29,6 +28,7 @@ import codeIcon from './icon--code.svg';
 import costumesIcon from './icon--costumes.svg';
 import soundsIcon from './icon--sounds.svg';
 import LoginForm from '../../containers/login-form.jsx';
+import ListModal from '../../containers/list-modal.jsx';
 import RegisterForm from '../../containers/register-form.jsx';
 import ProjectList from '../../containers/project-list.jsx';
 
@@ -61,6 +61,7 @@ const GUIComponent = props => {
         onActivateTab,
         previewInfoVisible,
         loginFormVisible,
+        listModalVisible,
         registerFormVisible,
         projectListVisible,
         soundsTabVisible,
@@ -96,9 +97,9 @@ const GUIComponent = props => {
             {previewInfoVisible ? (
                 <PreviewModal />
             ) : null}
-            {true ?( 
-                <ListModal/>
-            ) :null}
+            {listModalVisible ? (
+                <ListModal />
+            ) : null}
             {loading ? (
                 <Loader />
             ) : null}
@@ -256,6 +257,7 @@ GUIComponent.propTypes = {
     onTabSelect: PropTypes.func,
     previewInfoVisible: PropTypes.bool,
     loginFormVisible: PropTypes.bool,
+    listModalVisible:PropTypes.bool,
     registerFormVisible: PropTypes.bool,
     projectListVisible: PropTypes.bool,
     soundsTabVisible: PropTypes.bool,
