@@ -57,7 +57,7 @@ class ListModalComponent extends Component {
             <p className='testtile'>{this.state.detail.id}</p>
             <p className='test'>{this.timestampToTime(this.state.detail.createtime)}</p>
             <p className='test'>{this.timestampToTime(this.state.detail.lastedittime)}</p>
-            <button onClick={e=>{this.props.InProject(this.state.detail.unionid)}}>导入</button>
+            <button onClick={e=>{this.props.InProject(this.state.detail.id)}}>导入</button>
         </div>
         return (
             <ReactModal

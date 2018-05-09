@@ -53,35 +53,32 @@ class ListModal extends React.Component {
     InProject(id){
        this.fetchStudentRealtimeWorkSpace(id)
     }
-    fetchStudentRealtimeWorkSpace(unionid) {
+    fetchStudentRealtimeWorkSpace(projectId) {
         let config = {
             headers:{
                 jwt:this.props.user.jwt,
             },
         }
         this.props.openLoadingState();
-        axios.get( SCRATCH_SERVER_BASE + '/live/sb3/' + unionid, config)
+        axios.get(ASSETS_ROOT + "/projects/" + projectId, config)
         .then((res)=>{
             let data = res.data.data
             let code = res.data.code
             if (code==0){
-                this.props.vm.loadProject(this.state.detailjson)
+                this.props.setProject({
+                    id: projectId,
+                    name: data.name,
+                    unionid: data.unionid,
+                    hash: data.hash,
+                });
+                let project = data.data;
+                this.props.vm.loadProject(project)
                 .then(() => {
                     this.props.closeLoadingState();
-                    this.props.setProject({
-                        id: "",
-                        name: "",
-                        unionid: unionid,
-                        hash: "",
-                        teacher: "",
-                        isStudentRealtime: true,
-                    });
                 })
                 .catch(error => {
-                    this.setState({loadingError: true, errorMessage: error});
                     this.props.closeLoadingState();
                 });
-                
             }
             else {
                 alert('获取失败');
