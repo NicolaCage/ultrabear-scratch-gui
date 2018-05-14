@@ -54,7 +54,7 @@ class GUI extends React.Component {
     }
 
     handleWSOpen () {
-        alert("connection opened");
+        // alert("connection opened");
     }
 
     handleWSClose () {

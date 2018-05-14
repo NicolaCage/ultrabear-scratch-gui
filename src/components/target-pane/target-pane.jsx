@@ -29,6 +29,7 @@ const TargetPane = ({
     onDuplicateSprite,
     onNewSpriteClick,
     onSurpriseSpriteClick,
+    uploadSpriteClick,
     onPaintSpriteClick,
     onRequestCloseSpriteLibrary,
     onSelectSprite,
@@ -80,6 +81,7 @@ const TargetPane = ({
             onPaintSpriteClick={onPaintSpriteClick}
             onSelectSprite={onSelectSprite}
             onSurpriseSpriteClick={onSurpriseSpriteClick}
+            uploadSpriteClick={uploadSpriteClick}
         />
     </div>
 );
@@ -123,6 +125,7 @@ TargetPane.propTypes = {
     onRequestCloseSpriteLibrary: PropTypes.func,
     onSelectSprite: PropTypes.func,
     onSurpriseSpriteClick: PropTypes.func,
+    uploadSpriteClick:PropTypes.func,
     raiseSprites: PropTypes.bool,
     spriteLibraryVisible: PropTypes.bool,
     sprites: PropTypes.objectOf(spriteShape),

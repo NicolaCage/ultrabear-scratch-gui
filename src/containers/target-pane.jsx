@@ -1,6 +1,7 @@
 import bindAll from 'lodash.bindall';
 import React from 'react';
-
+import PropTypes from 'prop-types';
+import VM from 'scratch-vm';
 import {connect} from 'react-redux';
 
 import {
@@ -17,6 +18,7 @@ import spriteLibraryContent from '../lib/libraries/sprites.json';
 class TargetPane extends React.Component {
     constructor (props) {
         super(props);
+        console
         bindAll(this, [
             'handleBlockDragEnd',
             'handleChangeSpriteDirection',
@@ -29,8 +31,52 @@ class TargetPane extends React.Component {
             'handleDuplicateSprite',
             'handleSelectSprite',
             'handleSurpriseSpriteClick',
-            'handlePaintSpriteClick'
+            'handlePaintSpriteClick',
+            'handleuploadSpriteClick'
         ]);
+        this.state={
+            testjson:{
+                "objName": "TEST1",
+                "sounds": [
+                    {
+                        "soundName": "meow",
+                        "soundID": -1,
+                        "md5": "83c36d806dc92327b9e7049a565c6bff.wav",
+                        "sampleCount": 18688,
+                        "rate": 22050,
+                        "format": ""
+                    }
+                ],
+                "costumes": [
+                    {
+                        "costumeName": "test1",
+                        "baseLayerID": -1,
+                        "baseLayerMD5": "09dc888b0b7df19f70d81588ae73420e.svg",
+                        "bitmapResolution": 1,
+                        "rotationCenterX": 47,
+                        "rotationCenterY": 55
+                    },
+                    {
+                        "costumeName": "test2",
+                        "baseLayerID": -1,
+                        "baseLayerMD5": "3696356a03a8d938318876a593572843.svg",
+                        "bitmapResolution": 1,
+                        "rotationCenterX": 47,
+                        "rotationCenterY": 55
+                    }
+                ],
+                "currentCostumeIndex": 1,
+                "scratchX": 0,
+                "scratchY": 0,
+                "scale": 1,
+                "direction": 90,
+                "rotationStyle": "normal",
+                "isDraggable": false,
+                "indexInLibrary": 1,
+                "visible": true,
+                "spriteInfo": {}
+            }
+        }
     }
     componentDidMount () {
         this.props.vm.addListener('BLOCK_DRAG_END', this.handleBlockDragEnd);
@@ -69,6 +115,9 @@ class TargetPane extends React.Component {
         const item = spriteLibraryContent[Math.floor(Math.random() * spriteLibraryContent.length)];
         this.props.vm.addSprite2(JSON.stringify(item.json));
     }
+    handleuploadSpriteClick(){
+        this.props.vm.addSprite2(JSON.stringify(this.state.testjson));
+    }
     handlePaintSpriteClick () {
         // @todo this is brittle, will need to be refactored for localized libraries
         const emptyItem = spriteLibraryContent.find(item => item.name === 'Empty');
@@ -105,7 +154,7 @@ class TargetPane extends React.Component {
                 onDuplicateSprite={this.handleDuplicateSprite}
                 onPaintSpriteClick={this.handlePaintSpriteClick}
                 onSelectSprite={this.handleSelectSprite}
-                onSurpriseSpriteClick={this.handleSurpriseSpriteClick}
+                uploadSpriteClick={this.handleuploadSpriteClick}
             />
         );
     }
@@ -117,6 +166,7 @@ const {
 } = TargetPaneComponent.propTypes;
 
 TargetPane.propTypes = {
+    vm: PropTypes.instanceOf(VM).isRequired,    
     ...targetPaneProps
 };
 

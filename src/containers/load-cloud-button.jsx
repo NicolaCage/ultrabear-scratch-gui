@@ -52,7 +52,6 @@ class LoadCloudButton extends React.Component {
                     this.setState({loadingError: true, errorMessage: error});
                     this.props.closeLoadingState();
                 });
-                
             }
             else {
                 alert('获取失败');

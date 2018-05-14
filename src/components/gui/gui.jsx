@@ -232,9 +232,6 @@ const GUIComponent = props => {
                             </TabPanel>
                         </Tabs>
                     </Box>
-
-                    
-
                 </Box>
             </Box>
         </Box>

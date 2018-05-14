@@ -53,6 +53,7 @@ const SpriteSelectorComponent = function (props) {
         onDuplicateSprite,
         onNewSpriteClick,
         onSurpriseSpriteClick,
+        uploadSpriteClick,
         onPaintSpriteClick,
         onSelectSprite,
         raised,
@@ -121,7 +122,8 @@ const SpriteSelectorComponent = function (props) {
                 moreButtons={[
                     {
                         title: intl.formatMessage(messages.addSpriteFromFile),
-                        img: fileUploadIcon
+                        img: fileUploadIcon,
+                        onClick:uploadSpriteClick
                     }, {
                         title: intl.formatMessage(messages.addSpriteFromSurprise),
                         img: surpriseIcon,
@@ -158,6 +160,7 @@ SpriteSelectorComponent.propTypes = {
     onPaintSpriteClick: PropTypes.func,
     onSelectSprite: PropTypes.func,
     onSurpriseSpriteClick: PropTypes.func,
+    uploadSpriteClick: PropTypes.func,
     raised: PropTypes.bool,
     selectedId: PropTypes.string,
     sprites: PropTypes.shape({
