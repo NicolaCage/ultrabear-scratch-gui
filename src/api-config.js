@@ -1,5 +1,6 @@
 let backendHost;
 let authHost;
+let costumesHost;
 const apiVersion = 'v1.0';
 
 const hostname = window && window.location && window.location.hostname;
@@ -15,11 +16,12 @@ if(hostname.includes('ultrabear.com.cn')) {
 } else {
   authHost = (process.env.REACT_APP_AUTH_HOST|| 'http://localhost:8082') + "/auth/api/"+apiVersion;
 }
-
+costumesHost='https://assets.ultrabear.com.cn/costumes'
 export const API_ROOT = `${backendHost}`;
 export const AUTH_ROOT = `${authHost}`;
 
-
+export const COSTUMES_LIST_URL = 'https://assets.ultrabear.com.cn/user';
+export const COSTUMES_SUBMIT_URL = `${costumesHost}`;;
 export const URL = 'https://www.ultrabear.com.cn';
 export const WECHAT_SCAN_API_URL = "https://www.ultrabear.com.cn/auth/api/v1.0/wechat/coding";
 export const USER_INFO_API_URL = "https://www.ultrabear.com.cn/auth/api/v1.0/user/info";

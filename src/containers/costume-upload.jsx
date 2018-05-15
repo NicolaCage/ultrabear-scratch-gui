@@ -2,24 +2,21 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import VM from 'scratch-vm';
+import {setUser} from '../reducers/user';
 import { connect } from 'react-redux'
 import analytics from '../lib/analytics';
 import costumeLibraryContent from '../lib/libraries/costumes.json';
-import LibraryComponent from '../components/library/library.jsx';
-import axios from 'axios';
+import LibraryComponent from '../components/costume-upload/costume-upload.jsx';
 
-const custumesUrl = "https://assets.ultrabear.com.cn/user";
+const custumesUrl = "https://assets.ultrabear.com.cn/custumes";
 
 class CostumeLibrary extends React.PureComponent {
     constructor (props) {
         super(props);
+        console.log(props)
         bindAll(this, [
-            'handleItemSelected',
-            'getData'
+            'handleItemSelected'
         ]);
-        this.state={
-            data:{}
-        }
     }
     handleItemSelected (item) {
         console.log(item)
@@ -37,53 +34,31 @@ class CostumeLibrary extends React.PureComponent {
             label: item.name
         });
     }
-    componentWillMount(){
-        this.getData(this.props.id)
-    }
-    getData(id){
-        let config = {
-            headers: {
-                jwt: this.props.user.jwt,
-            }
-        }
-        axios.get(custumesUrl+"/"+id+"/costumes",config)
-        .then(res => {
-            if(res.data.code==0) {
-                this.setState({
-                    data: res.data.data
-                })
-            }
-            else {
-                alert('信息失效');
-            }
-       })
-        .catch((error)=> {
-            alert("网络错误");
-        });
-    }
     render () {
         return (
             <LibraryComponent
-                data={costumeLibraryContent}
-                title="选择造型"
-                onItemSelected={this.handleItemSelected}
-                onRequestClose={this.props.onRequestClose}
+                user={this.props.user}
             />
         );
     }
 }
-const mapStateToProps = state => ({
-    user: state.user
-});
+
 CostumeLibrary.propTypes = {
     onRequestClose: PropTypes.func,
     vm: PropTypes.instanceOf(VM).isRequired,
     user: PropTypes.any
 };
+const mapStateToProps = state => ({
+    user: state.user
+});
 const mapDispatchToProps = dispatch => ({
     setUser: (user) => dispatch(setUser(user))
 });
- export default connect(
+
+
+
+
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(CostumeLibrary);

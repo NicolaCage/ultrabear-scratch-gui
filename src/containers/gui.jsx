@@ -218,6 +218,7 @@ GUI.propTypes = {
     listModalVisible:PropTypes.bool,
     registerFormVisible: PropTypes.bool,
     projectListVisible: PropTypes.bool,
+    uploadcostumeVisible: PropTypes.bool,
     projectData: PropTypes.string,
     vm: PropTypes.instanceOf(VM)
 };
@@ -236,6 +237,7 @@ const mapStateToProps = state => ({
     loginFormVisible: state.modals.loginForm,
     listModalVisible: state.modals.projectsList,
     projectListVisible: state.modals.projectList,
+    uploadcostumeVisible: state.modals.uploadcostume,
     soundsTabVisible: state.editorTab.activeTabIndex === SOUNDS_TAB_INDEX,
     user: state.user,
     vm: state.vm,

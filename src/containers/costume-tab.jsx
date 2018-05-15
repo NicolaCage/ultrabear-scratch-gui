@@ -7,6 +7,7 @@ import VM from 'scratch-vm';
 import AssetPanel from '../components/asset-panel/asset-panel.jsx';
 import PaintEditorWrapper from './paint-editor-wrapper.jsx';
 import CostumeLibrary from './costume-library.jsx';
+import CostumeUpload from './costume-upload.jsx';
 import BackdropLibrary from './backdrop-library.jsx';
 import {connect} from 'react-redux';
 
@@ -14,7 +15,8 @@ import {
     closeCostumeLibrary,
     closeBackdropLibrary,
     openCostumeLibrary,
-    openBackdropLibrary
+    openBackdropLibrary,
+    openUploadCostume
 } from '../reducers/modals';
 
 import addLibraryBackdropIcon from '../components/asset-panel/icon--add-backdrop-lib.svg';
@@ -69,7 +71,8 @@ class CostumeTab extends React.Component {
             'handleDuplicateCostume',
             'handleNewBlankCostume',
             'handleSurpriseCostume',
-            'handleSurpriseBackdrop'
+            'handleSurpriseBackdrop',
+            'ImgUploadIcon'
         ]);
         const {
             editingTarget,
@@ -158,6 +161,9 @@ class CostumeTab extends React.Component {
         };
         this.props.vm.addCostume(item.md5, vmCostume);
     }
+    ImgUploadIcon(){
+         
+    }
     formatCostumeDetails (size) {
         // Round up width and height for scratch-flash compatibility
         // https://github.com/LLK/scratch-flash/blob/9fbac92ef3d09ceca0c0782f8a08deaa79e4df69/src/ui/media/MediaInfo.as#L224-L237
@@ -168,8 +174,10 @@ class CostumeTab extends React.Component {
             intl,
             onNewLibraryBackdropClick,
             onNewLibraryCostumeClick,
+            onUploadCostumeClick,
             backdropLibraryVisible,
             costumeLibraryVisible,
+            uploadcostumeVisible,
             onRequestCloseBackdropLibrary,
             onRequestCloseCostumeLibrary,
             editingTarget,
@@ -188,7 +196,7 @@ class CostumeTab extends React.Component {
         const addSurpriseFunc = target.isStage ? this.handleSurpriseBackdrop : this.handleSurpriseCostume;
         const addLibraryFunc = target.isStage ? onNewLibraryBackdropClick : onNewLibraryCostumeClick;
         const addLibraryIcon = target.isStage ? addLibraryBackdropIcon : addLibraryCostumeIcon;
-
+        const uploadCostume = onUploadCostumeClick;
         const costumeData = (target.costumes || []).map(costume => ({
             name: costume.name,
             assetId: costume.assetId,
@@ -208,8 +216,9 @@ class CostumeTab extends React.Component {
                         img: cameraIcon
                     },
                     {
-                        title: intl.formatMessage(messages.addFileCostumeMsg),
-                        img: fileUploadIcon
+                        title: '上传造型图片',
+                        img: fileUploadIcon,
+                        onClick:uploadCostume
                     },
                     {
                         title: intl.formatMessage(messages.addSurpriseCostumeMsg),
@@ -219,7 +228,7 @@ class CostumeTab extends React.Component {
                     {
                         title: intl.formatMessage(messages.addBlankCostumeMsg),
                         img: paintIcon,
-                        onClick: this.handleNewBlankCostume
+                        onClick: this.props.handleNewBlankCostume
                     }
                 ]}
                 items={costumeData}
@@ -240,6 +249,12 @@ class CostumeTab extends React.Component {
                         onRequestClose={onRequestCloseCostumeLibrary}
                     />
                 ) : null}
+                {uploadcostumeVisible ? (
+                    <CostumeUpload
+                        vm={vm}
+                        onRequestClose={onRequestCloseCostumeLibrary}
+                    />
+                ) : null}
                 {backdropLibraryVisible ? (
                     <BackdropLibrary
                         vm={vm}
@@ -254,10 +269,12 @@ class CostumeTab extends React.Component {
 CostumeTab.propTypes = {
     backdropLibraryVisible: PropTypes.bool,
     costumeLibraryVisible: PropTypes.bool,
+    uploadcostumeVisible:PropTypes.bool,
     editingTarget: PropTypes.string,
     intl: intlShape,
     onNewLibraryBackdropClick: PropTypes.func.isRequired,
     onNewLibraryCostumeClick: PropTypes.func.isRequired,
+    onUploadCostumeClick:PropTypes.func.isRequired,
     onRequestCloseBackdropLibrary: PropTypes.func.isRequired,
     onRequestCloseCostumeLibrary: PropTypes.func.isRequired,
     sprites: PropTypes.shape({
@@ -282,6 +299,7 @@ const mapStateToProps = state => ({
     sprites: state.targets.sprites,
     stage: state.targets.stage,
     costumeLibraryVisible: state.modals.costumeLibrary,
+    uploadcostumeVisible: state.modals.uploadcostume, 
     backdropLibraryVisible: state.modals.backdropLibrary
 });
 
@@ -289,6 +307,10 @@ const mapDispatchToProps = dispatch => ({
     onNewLibraryBackdropClick: e => {
         e.preventDefault();
         dispatch(openBackdropLibrary());
+    },
+    onUploadCostumeClick: e => {
+        e.preventDefault();
+        dispatch(openUploadCostume());
     },
     onNewLibraryCostumeClick: e => {
         e.preventDefault();
