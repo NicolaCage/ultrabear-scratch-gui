@@ -16,7 +16,7 @@ if(hostname.includes('ultrabear.com.cn')) {
 } else {
   authHost = (process.env.REACT_APP_AUTH_HOST|| 'http://localhost:8082') + "/auth/api/"+apiVersion;
 }
-costumesHost='https://assets.ultrabear.com.cn/costumes'
+costumesHost='https://assets.ultrabear.com.cn/costumes';
 export const API_ROOT = `${backendHost}`;
 export const AUTH_ROOT = `${authHost}`;
 

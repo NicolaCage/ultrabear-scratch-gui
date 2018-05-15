@@ -18,7 +18,60 @@ class CostumeLibrary extends React.PureComponent {
             'getData'
         ]);
         this.state={
-            data:{}
+            data:[
+                {   
+                    name:"Cat",
+                    md5: "09dc888b0b7df19f70d81588ae73420e.svg",
+                    type:"sprite",
+                    tags: [],
+                    info: [
+                        0,
+                        2,
+                        1
+                    ],
+                    json:{
+                        "objName": "Cat",
+                        "sounds": [
+                            {
+                                "soundName": "meow",
+                                "soundID": -1,
+                                "md5": "83c36d806dc92327b9e7049a565c6bff.wav",
+                                "sampleCount": 18688,
+                                "rate": 22050,
+                                "format": ""
+                            }
+                        ],
+                        "costumes": [
+                            {
+                                "costumeName": "cat1",
+                                "baseLayerID": -1,
+                                "baseLayerMD5": "09dc888b0b7df19f70d81588ae73420e.svg",
+                                "bitmapResolution": 1,
+                                "rotationCenterX": 47,
+                                "rotationCenterY": 55
+                            },
+                            {
+                                "costumeName": "cat2",
+                                "baseLayerID": -1,
+                                "baseLayerMD5": "3696356a03a8d938318876a593572843.svg",
+                                "bitmapResolution": 1,
+                                "rotationCenterX": 47,
+                                "rotationCenterY": 55
+                            }
+                        ],
+                        "currentCostumeIndex": 1,
+                        "scratchX": 0,
+                        "scratchY": 0,
+                        "scale": 1,
+                        "direction": 90,
+                        "rotationStyle": "normal",
+                        "isDraggable": false,
+                        "indexInLibrary": 1,
+                        "visible": true,
+                        "spriteInfo": {}
+                    }
+                }
+            ]
         }
     }
     handleItemSelected (item) {
@@ -38,7 +91,7 @@ class CostumeLibrary extends React.PureComponent {
         });
     }
     componentWillMount(){
-        this.getData(this.props.id)
+        this.getData(this.props.user.unionid)
     }
     getData(id){
         let config = {
@@ -49,9 +102,13 @@ class CostumeLibrary extends React.PureComponent {
         axios.get(custumesUrl+"/"+id+"/costumes",config)
         .then(res => {
             if(res.data.code==0) {
-                this.setState({
-                    data: res.data.data
-                })
+                if(res.data.data.length==0){
+
+                }else{
+                    this.setState({
+                        data: res.data.data
+                    })
+                }
             }
             else {
                 alert('信息失效');
@@ -64,7 +121,7 @@ class CostumeLibrary extends React.PureComponent {
     render () {
         return (
             <LibraryComponent
-                data={costumeLibraryContent}
+                data={this.state.data}
                 title="选择造型"
                 onItemSelected={this.handleItemSelected}
                 onRequestClose={this.props.onRequestClose}

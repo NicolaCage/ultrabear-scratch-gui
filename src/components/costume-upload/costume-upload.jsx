@@ -10,6 +10,7 @@ import { COSTUMES_SUBMIT_URL} from '../../api-config';
 import bindAll from 'lodash.bindall';
 import styles from './list-modal.css';
 import axios, { post } from 'axios';
+import qs from 'qs'
 
 class ListModalComponent extends Component {
     constructor(props) {
@@ -37,14 +38,14 @@ class ListModalComponent extends Component {
         })
     }
     fileUpload(file) {
-        const url = SUBMIT_API_URL;
+        const url = COSTUMES_SUBMIT_URL;
         const formData = new FormData();
         formData.append('file',file)
         formData.append('resolution','1')
         formData.append('name',this.state.name)
         formData.append('center_x',"0")
         formData.append('center_y',"10")
-        formData.append('format',"png")
+        formData.append('format',file.type)
         const config = {
             headers:{
                 jwt:this.props.user.jwt,
@@ -63,47 +64,14 @@ class ListModalComponent extends Component {
             alert('请选择文件')
             return
         }
-        // this.fileUpload(this.state.file)
-        let config = {
-            headers: {
-                jwt: this.props.user.jwt ,
-                'Content-Type':'application/x-www-form-urlencoded'
-            }
-        }
-        let data={
-            file:this.state.file,
-            resolution:1,
-            name:this.state.name,
-            center_x:0,
-            center_y:0,
-            format:'png'
-        }
-        axios({
-            url:COSTUMES_SUBMIT_URL,
-            method:'post', 
-            data:{
-                file:this.state.file,
-                resolution:1,
-                name:this.state.name,
-                center_x:0,
-                center_y:0,
-                format:'png'
-            } , 
-            transformRequest: [function (data) {
-                let ret = ''
-                for (let it in data) {
-                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-                }
-                return ret
-            }],
-            headers: {config},
-            })
-            .then((res)=>{
-                console.log(res)
-            })
-            .catch(error=>{
-                alert("网络错误" + error)
-            }); 
+        this.fileUpload(this.state.file)
+        .then((res)=>{
+            this.props.close()
+            alert('上传成功')
+        })
+        .catch(error=>{
+            alert("网络错误" + error)
+        }); 
     
     }
     render() {
