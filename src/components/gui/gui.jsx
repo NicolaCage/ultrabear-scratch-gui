@@ -133,6 +133,7 @@ const GUIComponent = props => {
                             <MediaQuery minWidth={layout.fullSizeMinWidth}>{isFullSize => {
                                 return isRendererSupported ? (
                                     <Stage
+                                        id='stage'
                                         height={isFullSize ? layout.fullStageHeight : layout.smallerStageHeight}
                                         shrink={0}
                                         vm={vm}

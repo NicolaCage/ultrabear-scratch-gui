@@ -37,22 +37,65 @@ class ListModalComponent extends Component {
             name: str
         })
     }
+    getImageWidthAndHeight(file,whenReady) {
+        var _URL = window.URL || window.webkitURL;
+        var img;
+        img = new Image();
+        img.onload = function () {
+            var width = img.width;
+            var height = img.height;
+            if (whenReady) whenReady(width, height);
+        };
+        img.src = _URL.createObjectURL(file);
+    }
+    getStage(){
+        let stageData={};
+        var Stage = document.getElementById('stage');
+        stageData.height=Stage.offsetHeight;
+        stageData.width=Stage.offsetWidth;
+        return stageData
+    }
     fileUpload(file) {
         const url = COSTUMES_SUBMIT_URL;
         const formData = new FormData();
-        formData.append('file',file)
-        formData.append('resolution','1')
-        formData.append('name',this.state.name)
-        formData.append('center_x',"0")
-        formData.append('center_y',"10")
-        formData.append('format',file.type)
-        const config = {
-            headers:{
-                jwt:this.props.user.jwt,
-                'Content-Type':'application/json'
-            },
-        }
-        return post(url, formData,config)
+        let imgData={}
+        let stageData = this.getStage()
+        var _URL = window.URL || window.webkitURL;
+        var img;
+        img = new Image();
+        img.onload = ()=> {
+            let m = 1; //缩放比例
+            let width = img.width;
+            let height = img.height;
+            //对比宽 缩放
+            if(width>stageData.width){
+                m= width / (stageData.width * 0.8)
+            }
+            //对比高 缩放
+            if(height / m > stageData.height){
+                m= height / (stageData.height * 0.8)
+            }
+            formData.append('file',file)
+            formData.append('resolution',Math.round(m)) //m 大于1是缩小  m必须是int
+            formData.append('name',this.state.name)
+            formData.append('center_x',Math.round(width/2))
+            formData.append('center_y',Math.round(height/2))
+            formData.append('format',file.type)
+            const config = {
+                headers:{
+                    jwt:this.props.user.jwt,
+                    'Content-Type':'application/json'
+                },
+            }
+            return post(url, formData,config).then((res)=>{
+                this.props.close()
+                alert('上传成功')
+            })
+            .catch(error=>{
+                alert("网络错误" + error)
+            }); 
+        };
+        img.src = _URL.createObjectURL(file);
     }
     upload(e){
         e.preventDefault()
@@ -65,14 +108,6 @@ class ListModalComponent extends Component {
             return
         }
         this.fileUpload(this.state.file)
-        .then((res)=>{
-            this.props.close()
-            alert('上传成功')
-        })
-        .catch(error=>{
-            alert("网络错误" + error)
-        }); 
-    
     }
     render() {
          
